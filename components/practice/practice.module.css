@@ -1,0 +1,248 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  height: 58px;
+  flex-wrap: wrap;
+}
+.brand {
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--text);
+}
+.brand span {
+  color: var(--primary);
+}
+
+.steps {
+  display: flex;
+  gap: var(--space-2);
+  list-style: none;
+  margin: var(--space-4) 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.stepPill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+}
+.stepActive {
+  background: var(--primary);
+  color: var(--primary-fg);
+  border-color: transparent;
+}
+.stepDone {
+  background: var(--success-bg);
+  color: var(--success);
+  border-color: transparent;
+}
+
+.main {
+  flex: 1;
+  padding: var(--space-5) 0 var(--space-8);
+}
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.row {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.input,
+.select,
+.textarea {
+  font: inherit;
+  padding: 9px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+}
+.textarea {
+  min-height: 320px;
+  resize: vertical;
+  line-height: 1.6;
+  width: 100%;
+}
+.dropzone {
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--surface-2);
+}
+
+.authItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+.authItem:last-child {
+  border-bottom: none;
+}
+.authMeta {
+  flex: 1;
+}
+.authCanonical {
+  font-weight: 600;
+}
+.authLocs {
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.usageMeter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.meterTrack {
+  width: 120px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.meterFill {
+  height: 100%;
+  background: var(--accent);
+}
+.meterFillWarn {
+  background: var(--warn);
+}
+.meterFillDanger {
+  background: var(--danger);
+}
+
+.answerBody {
+  white-space: pre-wrap;
+  line-height: 1.65;
+  font-size: 1rem;
+}
+.verifyBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.citations {
+  margin-top: var(--space-4);
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-3);
+}
+.citations h4 {
+  margin: 0 0 var(--space-2);
+  font-size: 0.95rem;
+}
+.citations ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.citeName {
+  font-weight: 600;
+}
+.pinpoint {
+  display: inline-block;
+  margin-left: var(--space-2);
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+.snippet {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.notice {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+}
+.noticeWarn {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.noticeDanger {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.noticeInfo {
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.editorBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+.rubric {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+}
+.rubricItem {
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+.rubricScore {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.muted {
+  color: var(--text-muted);
+}
+.sectionTitle {
+  font-size: 1.2rem;
+  margin: 0 0 var(--space-1);
+}
