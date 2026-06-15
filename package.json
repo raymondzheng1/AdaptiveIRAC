@@ -15,11 +15,13 @@
     "no-ai:check": "node scripts/no-ai-mentions-check.mjs",
     "citation:check": "node scripts/citation-format-check.mjs",
     "tokens:check": "node scripts/tokens-check.mjs",
+    "icons": "node scripts/generate-icons.mjs",
     "verify": "node scripts/no-ai-mentions-check.mjs && node scripts/citation-format-check.mjs && node scripts/tokens-check.mjs && npm run lint && vitest run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
     "@upstash/redis": "^1.34.3",
+    "@vercel/analytics": "^2.0.1",
     "jszip": "^3.10.1",
     "mammoth": "^1.8.0",
     "next": "^15.1.6",
@@ -37,6 +39,7 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.1.6",
     "jsdom": "^25.0.1",
+    "sharp": "^0.35.1",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   },

@@ -1,10 +1,29 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui";
+import { InstallPrompt } from "@/components/InstallPrompt";
 import styles from "./landing.module.css";
+
+const BASE_URL = process.env.APP_BASE_URL?.replace(/\/$/, "") || "http://localhost:3000";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Adaptive IRAC",
+  applicationCategory: "EducationalApplication",
+  operatingSystem: "Web",
+  url: BASE_URL,
+  description:
+    "Turn your own law course materials into exam practice with model IRAC answers and feedback that cite only your materials, every citation pinpointed.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
 
 export default function LandingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className={styles.header}>
         <div className={`container ${styles.headerInner}`}>
           <Link href="/" className={styles.brand}>
@@ -48,6 +67,7 @@ export default function LandingPage() {
             Your files are processed in memory and discarded — never stored on our servers, never
             shared.
           </p>
+          <InstallPrompt />
         </section>
 
         <section className={`container ${styles.section}`}>

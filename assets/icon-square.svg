@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Full-bleed, opaque, square (rx=0) source for maskable + apple icons.
+       Content (the "verified" check) sits inside the inner ~80% safe zone. -->
+  <rect width="512" height="512" fill="#1f3a8a"/>
+  <path d="M150 268 L224 342 L372 176"
+        fill="none" stroke="#ffffff" stroke-width="54"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

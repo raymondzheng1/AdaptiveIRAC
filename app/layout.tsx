@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
+import { BRAND_PRIMARY } from "@/lib/brand";
 import "./globals.css";
 
 const BASE_URL = process.env.APP_BASE_URL?.replace(/\/$/, "") || "http://localhost:3000";
@@ -27,6 +29,10 @@ export const metadata: Metadata = {
   alternates: { canonical: BASE_URL },
 };
 
+export const viewport: Viewport = {
+  themeColor: BRAND_PRIMARY,
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -43,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         ) : null}
         {children}
+        <Analytics />
       </body>
     </html>
   );
