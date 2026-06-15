@@ -53,8 +53,11 @@ export function getKv(): Kv {
   if (injected) return injected;
   if (cached) return cached;
 
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  // Accept either the classic Upstash names or the names Vercel's Upstash/KV
+  // integration injects (KV_REST_API_*). Always use the read-WRITE token — the
+  // meter and IP backstop write to KV, so a read-only token fails closed.
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
   if (url && token) {
     cached = new UpstashKv(new Redis({ url, token }));
     return cached;
