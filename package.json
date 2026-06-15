@@ -15,8 +15,9 @@
     "no-ai:check": "node scripts/no-ai-mentions-check.mjs",
     "citation:check": "node scripts/citation-format-check.mjs",
     "tokens:check": "node scripts/tokens-check.mjs",
+    "launch:check": "node scripts/launch-check.mjs",
     "icons": "node scripts/generate-icons.mjs",
-    "verify": "node scripts/no-ai-mentions-check.mjs && node scripts/citation-format-check.mjs && node scripts/tokens-check.mjs && npm run lint && vitest run"
+    "verify": "node scripts/no-ai-mentions-check.mjs && node scripts/citation-format-check.mjs && node scripts/tokens-check.mjs && node scripts/launch-check.mjs && npm run lint && vitest run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

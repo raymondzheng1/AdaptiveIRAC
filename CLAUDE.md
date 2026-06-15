@@ -32,7 +32,7 @@ Next.js (App Router) + TS strict · Vercel Pro (`syd1`) · browser localStorage 
 - Don't return an answer that fails verification, a citation without a pinpoint, or allow uncapped spend.
 
 ## Env vars (placeholders in repo; real secrets never committed)
-`ANTHROPIC_API_KEY`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `SESSION_CAP_USD` (=5), `GLOBAL_DAILY_BUDGET_USD`, `APP_BASE_URL`, `CRON_SECRET` (if budget-alert cron), `RESEND_API_KEY` (optional alerts).
+`ANTHROPIC_API_KEY`, KV REST creds (**either** `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` **or** the Vercel-injected `KV_REST_API_URL`/`KV_REST_API_TOKEN` — `lib/kv` reads both, read-write token only, harness §15), `SESSION_CAP_USD` (=5), `GLOBAL_DAILY_BUDGET_USD`, `IP_DAILY_SESSION_CAP` (=150), `APP_BASE_URL`, `NEXT_PUBLIC_GA4_ID` (optional), `CRON_SECRET` (if budget-alert cron), `RESEND_API_KEY` (optional alerts).
 
-## Launch gates
-`verify` green · verification gate rejects an out-of-corpus citation (integration test) · cost guard blocks at \$5/session and fails closed when KV down (integration test) · no materials persisted server-side (verified) · no-AI-mentions linter green · mobile 375×812 pass · BYO-key path works and bypasses the meter.
+## Launch gates (full Appendix-A-derived set — never a subset; machine-enforced by `launch:check`)
+`verify` green (incl. `launch:check`) · verification gate rejects an out-of-corpus citation (integration test) · cost guard blocks at \$5/session and fails closed when KV down (integration test) · no materials persisted server-side (verified) · no-AI-mentions linter green · mobile 375×812 pass · BYO-key path works and bypasses the meter · **installable PWA + full icon set** (manifest, `icon.svg`/`favicon.ico`/`apple-icon`/maskable 192·512 — §19) · **Vercel Analytics mounted** + GA4 wired (§8.5/§8.2) · **SEO baseline**: sitemap, robots, per-route metadata, JSON-LD, env-driven base URL (§8) · KV reads both env-name conventions (§15). After deploy: enable Vercel Web Analytics in the dashboard; confirm `SESSION_CAP_USD` is the intended value.
