@@ -31,8 +31,10 @@ check(
 // The verifier must run a pinpoint-binding gate.
 check("lib/verification/index.ts", '"pinpoint-binding"', "verifier must include the pinpoint-binding gate");
 
-// The renderer must display the pinpoint.
-check("components/practice/CitationList.tsx", "pinpoint", "citation renderer must show the pinpoint");
+// The presentation layer must bind each citation's pinpoint into its source.
+check("components/answer/transform.ts", "pinpoint", "citation source must carry the pinpoint");
+// The source panel must surface the pinpoint (rendered as the corpus location).
+check("components/answer/SourcePanel.tsx", "where", "source panel must show the pinpoint location");
 
 if (failures) {
   console.error(`\ncitation-format: ${failures} violation(s).`);

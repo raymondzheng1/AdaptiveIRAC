@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
   Authority,
@@ -23,12 +22,15 @@ import { selectContext } from "@/lib/retrieval";
 import { applyFeedbackToProgress, mostMissedIssues, weakestLimb } from "@/lib/feedback/progress";
 import { BYO_KEY_STORAGE } from "@/lib/byokey";
 import { track } from "@/components/analytics";
-import { Badge, Button, Card, Spinner } from "@/components/ui";
-import { CitationList } from "@/components/practice/CitationList";
-import { UsageMeter } from "@/components/practice/UsageMeter";
+import { Badge, Button, Card, Input, Notice, SegmentedControl } from "@/components/ui";
+import { WorkspaceShell } from "@/components/practice/WorkspaceShell";
+import { ModelAnswerView } from "@/components/practice/ModelAnswerView";
+import { RubricScorecard } from "@/components/practice/RubricScorecard";
+import type { StepKey } from "@/components/practice/ProgressSteps";
 import styles from "@/components/practice/practice.module.css";
 
 type Step = "upload" | "authorities" | "practice";
+type Tab = "answer" | "model" | "feedback";
 type Spend = { usedUsd: number; capUsd: number };
 
 interface ApiOk<T> {
@@ -64,6 +66,11 @@ function wordCount(text: string): number {
   return t ? t.split(/\s+/).length : 0;
 }
 
+const ANSWERING = "Drafting and verifying a grounded answer…";
+
+const badgeTypeForKind = (kind: Authority["kind"]): "case" | "statute" | "notes" =>
+  kind === "statute" ? "statute" : kind === "case" ? "case" : "notes";
+
 export default function PracticePage() {
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
   const [step, setStep] = useState<Step>("upload");
@@ -71,6 +78,8 @@ export default function PracticePage() {
   const [error, setError] = useState<string | null>(null);
   const [byoKey, setByoKey] = useState<string>("");
   const [spend, setSpend] = useState<Spend>({ usedUsd: 0, capUsd: 5 });
+  const [keyOpen, setKeyOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>("answer");
 
   // Practice state
   const [type, setType] = useState<QuestionType>("hypothetical");
@@ -91,7 +100,6 @@ export default function PracticePage() {
     saveWorkspace(next);
   }, []);
 
-  // Load workspace + BYO key, refresh usage meter.
   useEffect(() => {
     const ws = getOrInitWorkspace();
     setWorkspace(ws);
@@ -106,26 +114,17 @@ export default function PracticePage() {
     track("session_start");
   }, []);
 
-  // Countdown timer tick (re-armed each second while time remains).
   useEffect(() => {
     if (remaining <= 0) return;
     const id = setInterval(() => setRemaining((r) => Math.max(0, r - 1)), 1000);
     return () => clearInterval(id);
   }, [remaining]);
 
-  // Provider defaults server-side; we send only the key the user pasted.
-  const byoKeyPayload = useMemo(
-    () => (byoKey.trim() ? { apiKey: byoKey.trim() } : undefined),
-    [byoKey],
-  );
+  const byoKeyPayload = useMemo(() => (byoKey.trim() ? { apiKey: byoKey.trim() } : undefined), [byoKey]);
 
   function applySpendFromError(e: ApiErr) {
     if (e.spend) setSpend(e.spend);
-    setError(
-      e.code === "session_cap_reached" || e.code === "global_budget_exhausted"
-        ? `${e.error}`
-        : e.error,
-    );
+    setError(e.error);
   }
 
   // ---- Upload ----
@@ -161,7 +160,6 @@ export default function PracticePage() {
     [workspace, persist],
   );
 
-  // ---- Authorities editing ----
   function removeAuthority(id: string) {
     if (!workspace) return;
     persist({ ...workspace, allowlist: workspace.allowlist.filter((a) => a.id !== id) });
@@ -173,7 +171,6 @@ export default function PracticePage() {
     track("allowlist_confirmed", { count: workspace.allowlist.length });
   }
 
-  // ---- Generation ----
   const buildContext = useCallback(
     (query: string) => {
       if (!workspace) return [];
@@ -191,6 +188,7 @@ export default function PracticePage() {
     setInsufficient(null);
     setFeedback(null);
     setAttempt("");
+    setActiveTab("answer");
     const context = buildContext(topic || workspace.subject.name);
     if (context.length === 0) {
       setError("No materials to draw from. Upload some sources first.");
@@ -218,7 +216,8 @@ export default function PracticePage() {
 
   async function showModelAnswer() {
     if (!workspace || !question) return;
-    setBusy("Drafting and verifying a grounded answer…");
+    setActiveTab("model");
+    setBusy(ANSWERING);
     setError(null);
     const context = buildContext(question.prompt);
     const res = await postJson<{
@@ -252,6 +251,7 @@ export default function PracticePage() {
       setError("Write a longer attempt before requesting feedback.");
       return;
     }
+    setActiveTab("feedback");
     setBusy("Marking your attempt…");
     setError(null);
     const res = await postJson<{ feedback: Feedback; spend: Spend }>("/api/feedback", {
@@ -268,15 +268,10 @@ export default function PracticePage() {
     setSpend(res.data.spend);
     setFeedback(res.data.feedback);
     const nextProgress = applyFeedbackToProgress(workspace.progress, res.data.feedback, question);
-    persist({
-      ...workspace,
-      feedback: [...workspace.feedback, res.data.feedback],
-      progress: nextProgress,
-    });
+    persist({ ...workspace, feedback: [...workspace.feedback, res.data.feedback], progress: nextProgress });
     track("feedback_shown");
   }
 
-  // ---- BYO key ----
   function saveByoKey(value: string) {
     setByoKey(value);
     if (typeof window === "undefined") return;
@@ -284,10 +279,9 @@ export default function PracticePage() {
     else window.localStorage.removeItem(BYO_KEY_STORAGE);
   }
 
-  // ---- Export / import / download results ----
   function exportWorkspace() {
     if (!workspace) return;
-    downloadText("adaptive-irac-export.json", toExportJson(workspace), "application/json");
+    downloadText("pincite-export.json", toExportJson(workspace), "application/json");
   }
   function importWorkspace(file: File) {
     const reader = new FileReader();
@@ -297,7 +291,7 @@ export default function PracticePage() {
         persist(ws);
         setStep(ws.allowlistConfirmed ? "practice" : ws.sources.length ? "authorities" : "upload");
       } else {
-        setError("That file is not a valid Adaptive IRAC export.");
+        setError("That file is not a valid Pincite export.");
       }
     };
     reader.readAsText(file);
@@ -324,192 +318,241 @@ export default function PracticePage() {
         `\n## Feedback\nIssues spotted: ${feedback.issuesSpotted.join(", ") || "—"}\nIssues missed: ${feedback.issuesMissed.join(", ") || "—"}\nStructure: ${feedback.structureNotes}\nApplication: ${feedback.applicationDepthNotes}\nActions:\n${feedback.actions.map((a) => `- ${a}`).join("\n")}`,
       );
     }
-    downloadText("adaptive-irac-results.md", parts.join("\n"), "text/markdown");
+    downloadText("pincite-results.md", parts.join("\n"), "text/markdown");
     track("results_downloaded");
   }
 
   if (!workspace) {
     return (
-      <div className="container" style={{ padding: "var(--space-8) 0" }}>
-        <Spinner /> Loading your workspace…
+      <div style={{ padding: "var(--space-12)", textAlign: "center", color: "var(--text-muted)" }}>
+        Loading your workspace…
       </div>
     );
   }
 
   const weak = weakestLimb(workspace.progress);
   const missed = mostMissedIssues(workspace.progress);
+  const stepKey: StepKey = step === "practice" ? "practise" : step;
+  const answering = busy === ANSWERING;
 
   return (
-    <div className={styles.shell}>
-      <div className={styles.topbar}>
-        <div className={`container ${styles.topbarInner}`}>
-          <Link href="/" className={styles.brand}>
-            Adaptive<span> IRAC</span>
-          </Link>
-          <UsageMeter usedUsd={spend.usedUsd} capUsd={spend.capUsd} byoKey={Boolean(byoKeyPayload)} />
-        </div>
-      </div>
+    <WorkspaceShell
+      current={stepKey}
+      usedUsd={spend.usedUsd}
+      capUsd={spend.capUsd}
+      byoKey={Boolean(byoKeyPayload)}
+      onUseKey={() => setKeyOpen((o) => !o)}
+    >
+      <h1 className="visually-hidden">Pincite practice workspace</h1>
 
-      <main className={styles.main}>
-        <div className="container">
-          <ol className={styles.steps}>
-            <li className={`${styles.stepPill} ${step === "upload" ? styles.stepActive : workspace.sources.length ? styles.stepDone : ""}`}>
-              1 · Upload
-            </li>
-            <li className={`${styles.stepPill} ${step === "authorities" ? styles.stepActive : workspace.allowlistConfirmed ? styles.stepDone : ""}`}>
-              2 · Authorities
-            </li>
-            <li className={`${styles.stepPill} ${step === "practice" ? styles.stepActive : ""}`}>
-              3 · Practise
-            </li>
-          </ol>
+      <div className={styles.stack}>
+        {error ? (
+          <Notice tone="danger">
+            {error}{" "}
+            {!byoKeyPayload ? <span>Tip: add your own API key (Use my key) to continue at no cost to us.</span> : null}
+          </Notice>
+        ) : null}
+        {busy && !answering ? <Notice tone="info">{busy}</Notice> : null}
+        {keyOpen ? <KeyPanel value={byoKey} onChange={saveByoKey} /> : null}
 
-          {error ? (
-            <div className={`${styles.notice} ${styles.noticeDanger}`} role="alert" style={{ marginBottom: "var(--space-4)" }}>
-              {error}{" "}
-              {!byoKeyPayload ? <span>Tip: add your own API key below to continue at no cost to us.</span> : null}
-            </div>
-          ) : null}
+        {step === "upload" ? (
+          <UploadStep workspace={workspace} busy={Boolean(busy)} onUpload={handleUpload} onImport={importWorkspace} />
+        ) : null}
 
-          {busy ? (
-            <div className={`${styles.notice} ${styles.noticeInfo}`} style={{ marginBottom: "var(--space-4)" }}>
-              <Spinner /> {busy}
-            </div>
-          ) : null}
+        {step === "authorities" ? (
+          <AuthoritiesStep
+            authorities={workspace.allowlist}
+            onRemove={removeAuthority}
+            onConfirm={confirmAllowlist}
+            onBack={() => setStep("upload")}
+          />
+        ) : null}
 
-          {step === "upload" ? (
-            <UploadStep workspace={workspace} busy={Boolean(busy)} onUpload={handleUpload} onImport={importWorkspace} />
-          ) : null}
-
-          {step === "authorities" ? (
-            <AuthoritiesStep
-              authorities={workspace.allowlist}
-              onRemove={removeAuthority}
-              onConfirm={confirmAllowlist}
-              onBack={() => setStep("upload")}
-            />
-          ) : null}
-
-          {step === "practice" ? (
-            <div className={styles.stack}>
-              <Card>
-                <div className={styles.row}>
-                  <div className={styles.field}>
-                    <label htmlFor="qtype">Question type</label>
-                    <select id="qtype" className={styles.select} value={type} onChange={(e) => setType(e.target.value as QuestionType)}>
-                      <option value="hypothetical">Hypothetical (problem)</option>
-                      <option value="essay">Essay (contention)</option>
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label htmlFor="diff">Difficulty</label>
-                    <select id="diff" className={styles.select} value={difficulty} onChange={(e) => setDifficulty(e.target.value as Difficulty)}>
-                      <option value="foundational">Foundational</option>
-                      <option value="standard">Standard</option>
-                      <option value="challenging">Challenging</option>
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label htmlFor="topic">Topic (optional)</label>
-                    <input id="topic" className={styles.input} value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. judicial review grounds" />
-                  </div>
-                  <div className={styles.field}>
-                    <label htmlFor="timer">Timer (min)</label>
-                    <input id="timer" type="number" min={0} max={180} className={styles.input} style={{ width: 90 }} value={timerMin} onChange={(e) => setTimerMin(Number(e.target.value))} />
-                  </div>
-                  <div className={styles.field}>
-                    <label>&nbsp;</label>
-                    <Button onClick={generateQuestion} loading={busy === "Writing a question from your materials…"}>
-                      Generate question
-                    </Button>
-                  </div>
+        {step === "practice" ? (
+          <>
+            <Card>
+              <div className={styles.row}>
+                <div className={styles.field}>
+                  <span className={styles.fieldLabel}>Question type</span>
+                  <SegmentedControl
+                    ariaLabel="Question type"
+                    value={type}
+                    onChange={setType}
+                    options={[
+                      { value: "hypothetical", label: "Hypothetical" },
+                      { value: "essay", label: "Essay" },
+                    ]}
+                  />
                 </div>
-                {weak ? (
-                  <p className={styles.muted} style={{ marginTop: "var(--space-3)", marginBottom: 0 }}>
-                    💡 Your weakest area so far: <strong>{weak.label}</strong> ({weak.score.toFixed(1)}/10).
-                    {missed.length ? ` Most-missed: ${missed.map((m) => m.issue).slice(0, 3).join(", ")}.` : ""}
-                  </p>
+                <div className={styles.field}>
+                  <span className={styles.fieldLabel}>Difficulty</span>
+                  <SegmentedControl
+                    ariaLabel="Difficulty"
+                    value={difficulty}
+                    onChange={setDifficulty}
+                    options={[
+                      { value: "foundational", label: "Foundational" },
+                      { value: "standard", label: "Standard" },
+                      { value: "challenging", label: "Challenging" },
+                    ]}
+                  />
+                </div>
+                <div className={styles.field}>
+                  <span className={styles.fieldLabel}>Topic (optional)</span>
+                  <Input value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. duty of care" style={{ width: 220 }} />
+                </div>
+                <div className={styles.field}>
+                  <span className={styles.fieldLabel}>Timer (min)</span>
+                  <Input
+                    type="number"
+                    min={0}
+                    max={180}
+                    value={timerMin}
+                    onChange={(e) => setTimerMin(Number(e.target.value))}
+                    style={{ width: 90 }}
+                  />
+                </div>
+                <Button onClick={generateQuestion} loading={busy === "Writing a question from your materials…"}>
+                  Generate question
+                </Button>
+              </div>
+              {weak ? (
+                <p className={styles.muted} style={{ marginTop: "var(--space-3)", marginBottom: 0, fontSize: 14 }}>
+                  Your weakest area so far: <strong>{weak.label}</strong> ({weak.score.toFixed(1)}/10).
+                  {missed.length ? ` Most-missed: ${missed.map((m) => m.issue).slice(0, 3).join(", ")}.` : ""}
+                </p>
+              ) : null}
+            </Card>
+
+            {question ? (
+              <Card>
+                <div className={styles.qMetaRow}>
+                  <span className={styles.eyebrow}>Question · {workspace.subject.name}</span>
+                  <Badge tone="draft">
+                    {question.type === "hypothetical" ? "Hypothetical" : "Essay"} · {question.difficulty}
+                  </Badge>
+                  {remaining > 0 ? (
+                    <Badge tone={remaining < 60 ? "warn" : "draft"}>
+                      {Math.floor(remaining / 60)}:{String(remaining % 60).padStart(2, "0")} left
+                    </Badge>
+                  ) : null}
+                </div>
+                <p className={styles.qText}>{question.prompt}</p>
+
+                <div className={styles.tabs} role="tablist" aria-label="Answer views">
+                  {(
+                    [
+                      ["answer", "Your answer"],
+                      ["model", "Model answer"],
+                      ["feedback", "Feedback"],
+                    ] as Array<[Tab, string]>
+                  ).map(([key, label]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      role="tab"
+                      aria-selected={activeTab === key}
+                      className={[styles.tab, activeTab === key ? styles.tabActive : ""].join(" ")}
+                      onClick={() => setActiveTab(key)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                {activeTab === "answer" ? (
+                  <div>
+                    <div className={styles.editorBar}>
+                      <span>Write your IRAC answer, then reveal the model answer to compare.</span>
+                      <span>{wordCount(attempt)} words</span>
+                    </div>
+                    <textarea
+                      className={styles.textarea}
+                      value={attempt}
+                      onChange={(e) => setAttempt(e.target.value)}
+                      placeholder="Issue… Rule… Application… Conclusion…"
+                      aria-label="Your attempt"
+                    />
+                    <div className={styles.row} style={{ marginTop: "var(--space-3)", alignItems: "center" }}>
+                      <Button onClick={showModelAnswer} loading={answering}>
+                        Reveal model answer
+                      </Button>
+                      <Button variant="secondary" onClick={getFeedback} loading={busy === "Marking your attempt…"}>
+                        Get feedback on my attempt
+                      </Button>
+                      <Button variant="ghost" onClick={downloadResults}>
+                        Download results
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
+
+                {activeTab === "model" ? (
+                  <ModelAnswerView
+                    answer={answer}
+                    allowlist={workspace.allowlist}
+                    composing={answering}
+                    insufficient={insufficient}
+                    onReveal={showModelAnswer}
+                  />
+                ) : null}
+
+                {activeTab === "feedback" ? (
+                  <FeedbackPanel
+                    feedback={feedback}
+                    busy={busy === "Marking your attempt…"}
+                    onGet={getFeedback}
+                  />
                 ) : null}
               </Card>
+            ) : null}
 
-              {question ? (
-                <Card>
-                  <div className={styles.editorBar}>
-                    <h2 className={styles.sectionTitle}>Question</h2>
-                    {remaining > 0 ? <Badge tone={remaining < 60 ? "danger" : "neutral"}>⏱ {Math.floor(remaining / 60)}:{String(remaining % 60).padStart(2, "0")}</Badge> : null}
-                  </div>
-                  <p className={styles.answerBody}>{question.prompt}</p>
-
-                  <div className={styles.editorBar} style={{ marginTop: "var(--space-4)" }}>
-                    <label htmlFor="attempt"><strong>Your attempt</strong></label>
-                    <span>{wordCount(attempt)} words</span>
-                  </div>
-                  <textarea
-                    id="attempt"
-                    className={styles.textarea}
-                    value={attempt}
-                    onChange={(e) => setAttempt(e.target.value)}
-                    placeholder="Write your IRAC answer here…"
+            <Card>
+              <h2 className={styles.sectionTitle}>Your workspace</h2>
+              <p className={styles.muted} style={{ fontSize: 14 }}>
+                Everything stays in this browser. Export a backup to move to another device, or add more materials.
+              </p>
+              <div className={styles.row} style={{ alignItems: "center" }}>
+                <Button variant="secondary" onClick={exportWorkspace}>Export (JSON)</Button>
+                <label>
+                  <span className={styles.useKey} style={{ display: "inline-block" }}>Import backup</span>
+                  <input
+                    type="file"
+                    accept="application/json"
+                    hidden
+                    onChange={(e) => e.target.files?.[0] && importWorkspace(e.target.files[0])}
                   />
-                  <div className={styles.row} style={{ marginTop: "var(--space-3)" }}>
-                    <Button onClick={showModelAnswer} loading={busy === "Drafting and verifying a grounded answer…"}>
-                      Show model answer
-                    </Button>
-                    <Button variant="secondary" onClick={getFeedback} loading={busy === "Marking your attempt…"}>
-                      Get feedback on my attempt
-                    </Button>
-                    <Button variant="ghost" onClick={downloadResults}>
-                      Download results
-                    </Button>
-                  </div>
-                </Card>
-              ) : null}
+                </label>
+                <Button variant="ghost" onClick={() => setStep("upload")}>Add / change materials</Button>
+              </div>
+            </Card>
+          </>
+        ) : null}
+      </div>
+    </WorkspaceShell>
+  );
+}
 
-              {insufficient ? (
-                <Card>
-                  <div className={`${styles.notice} ${styles.noticeWarn}`}>
-                    We couldn&apos;t ground a complete answer from your materials for this question (tried {insufficient.attempts} times). Rather than invent a citation, we&apos;ve stopped. Try a narrower topic, or add the relevant source and regenerate.
-                  </div>
-                </Card>
-              ) : null}
-
-              {answer ? (
-                <Card>
-                  <div className={styles.verifyBanner}>
-                    <Badge tone="success">✓ Every citation verified against your materials</Badge>
-                  </div>
-                  <h2 className={styles.sectionTitle}>Model answer</h2>
-                  <div className={styles.answerBody}>{answer.body}</div>
-                  <CitationList citations={answer.citations} />
-                </Card>
-              ) : null}
-
-              {feedback ? <FeedbackView feedback={feedback} /> : null}
-
-              <Card>
-                <h3 className={styles.sectionTitle}>Your workspace</h3>
-                <p className={styles.muted}>
-                  Everything stays in this browser. Export a backup to move to another device, or start a new subject.
-                </p>
-                <div className={styles.row}>
-                  <Button variant="secondary" onClick={exportWorkspace}>Export (JSON)</Button>
-                  <label className="">
-                    <span style={{ display: "inline-block", padding: "10px 18px", borderRadius: "var(--radius-sm)", border: "1px solid var(--border-strong)", cursor: "pointer", fontWeight: 600 }}>
-                      Import backup
-                    </span>
-                    <input type="file" accept="application/json" hidden onChange={(e) => e.target.files?.[0] && importWorkspace(e.target.files[0])} />
-                  </label>
-                  <Button variant="ghost" onClick={() => { setStep("upload"); }}>Add / change materials</Button>
-                </div>
-                <div style={{ marginTop: "var(--space-4)" }}>
-                  <ByoKeyControl value={byoKey} onChange={saveByoKey} />
-                </div>
-              </Card>
-            </div>
-          ) : null}
-        </div>
-      </main>
-    </div>
+function KeyPanel({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
+    <Card>
+      <h2 className={styles.sectionTitle} style={{ fontSize: 18 }}>Use your own API key</h2>
+      <p className={styles.muted} style={{ fontSize: 14 }}>
+        Paste your own provider key to bypass the shared free limit. It is stored only in this browser and
+        sent directly per request — never logged or saved on our servers.
+      </p>
+      <div className={styles.row} style={{ alignItems: "center" }}>
+        <Input
+          type="password"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="sk-…"
+          style={{ flex: 1, minWidth: 240 }}
+          aria-label="Your API key"
+        />
+        {value ? <Button variant="ghost" onClick={() => onChange("")}>Clear</Button> : null}
+      </div>
+    </Card>
   );
 }
 
@@ -529,12 +572,12 @@ function UploadStep({
   return (
     <Card>
       <h2 className={styles.sectionTitle}>Upload your course materials</h2>
-      <p className={styles.muted}>
+      <p className={styles.muted} style={{ fontSize: 14 }}>
         PDF, Word, slides, or notes for one subject. Files are read in memory and discarded — never stored.
       </p>
-      <div className={styles.field} style={{ maxWidth: 360, marginBottom: "var(--space-4)" }}>
-        <label htmlFor="subject">Subject name</label>
-        <input id="subject" className={styles.input} value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Administrative Law" />
+      <div className={styles.field} style={{ maxWidth: 360, margin: "var(--space-4) 0" }}>
+        <span className={styles.fieldLabel}>Subject name</span>
+        <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Torts" />
       </div>
       <div
         className={styles.dropzone}
@@ -543,7 +586,7 @@ function UploadStep({
         role="button"
         tabIndex={0}
       >
-        <p>Click to choose files (PDF, DOCX, PPTX, TXT, MD)</p>
+        <p style={{ margin: 0 }}>Click to choose files (PDF, DOCX, PPTX, TXT, MD)</p>
         <input
           ref={fileRef}
           type="file"
@@ -554,7 +597,7 @@ function UploadStep({
           disabled={busy}
         />
       </div>
-      <p className={styles.muted} style={{ marginTop: "var(--space-4)" }}>
+      <p className={styles.muted} style={{ marginTop: "var(--space-4)", fontSize: 14 }}>
         Returning on this device?{" "}
         <label style={{ color: "var(--primary)", cursor: "pointer", fontWeight: 600 }}>
           Import a backup
@@ -579,108 +622,86 @@ function AuthoritiesStep({
   return (
     <Card>
       <h2 className={styles.sectionTitle}>Confirm your authorities</h2>
-      <p className={styles.muted}>
-        These are the citable cases and sections we found in your materials. Answers may cite <strong>only</strong> this list. Remove anything that isn&apos;t a real authority, then confirm.
+      <p className={styles.muted} style={{ fontSize: 14 }}>
+        These are the citable cases and sections we found in your materials. Answers may cite <strong>only</strong>{" "}
+        this list. Remove anything that isn&apos;t a real authority, then confirm.
       </p>
       {authorities.length === 0 ? (
-        <div className={`${styles.notice} ${styles.noticeWarn}`}>
-          We didn&apos;t detect any citable authorities. You can still generate practice, but model answers will rely on your notes rather than named cases. Consider adding a case or statute source.
-        </div>
+        <Notice tone="warn">
+          We didn&apos;t detect any citable authorities. You can still generate practice, but model answers will
+          rely on your notes rather than named cases. Consider adding a case or statute source.
+        </Notice>
       ) : (
         <div>
           {authorities.map((a) => (
             <div className={styles.authItem} key={a.id}>
               <div className={styles.authMeta}>
-                <div className={styles.authCanonical}>
-                  {a.canonical} <Badge>{a.kind}</Badge>
+                <div className={styles.authName}>
+                  {a.canonical} <Badge type={badgeTypeForKind(a.kind)}>{a.kind}</Badge>
                 </div>
-                <div className={styles.authLocs}>
+                <div className={styles.authWhere}>
                   Appears at: {a.locations.map((l) => `${l.sourceFilename} · ${l.label}`).join("  |  ")}
                 </div>
               </div>
-              <Button variant="ghost" small onClick={() => onRemove(a.id)}>
-                Remove
-              </Button>
+              <Button variant="ghost" size="sm" onClick={() => onRemove(a.id)}>Remove</Button>
             </div>
           ))}
         </div>
       )}
-      <div className={styles.row} style={{ marginTop: "var(--space-4)" }}>
-        <Button onClick={onConfirm}>Confirm {authorities.length} authorities & start practising</Button>
+      <div className={styles.row} style={{ marginTop: "var(--space-4)", alignItems: "center" }}>
+        <Button onClick={onConfirm}>Confirm {authorities.length} authorities &amp; start practising</Button>
         <Button variant="ghost" onClick={onBack}>Back</Button>
       </div>
     </Card>
   );
 }
 
-function FeedbackView({ feedback }: { feedback: Feedback }) {
-  return (
-    <Card>
-      <h2 className={styles.sectionTitle}>Feedback</h2>
-      {feedback.outOfCorpusCitations.length > 0 ? (
-        <div className={`${styles.notice} ${styles.noticeDanger}`} style={{ marginBottom: "var(--space-3)" }}>
-          ⚠ Your attempt cited authorities not in your materials: {feedback.outOfCorpusCitations.join(", ")}. In an exam, citing outside your syllabus can cost marks.
-        </div>
-      ) : null}
-      <div className={styles.rubric}>
-        {(
-          [
-            ["Issue spotting", feedback.rubric.issueSpotting],
-            ["Rule statement", feedback.rubric.ruleStatement],
-            ["Application", feedback.rubric.application],
-            ["Structure", feedback.rubric.structure],
-            ["Authority use", feedback.rubric.authorityUse],
-          ] as Array<[string, number]>
-        ).map(([label, score]) => (
-          <div className={styles.rubricItem} key={label}>
-            <div className={styles.rubricScore}>{score}/10</div>
-            <div className={styles.muted}>{label}</div>
-          </div>
-        ))}
+function FeedbackPanel({
+  feedback,
+  busy,
+  onGet,
+}: {
+  feedback: Feedback | null;
+  busy: boolean;
+  onGet: () => void;
+}) {
+  if (!feedback) {
+    return (
+      <div style={{ marginTop: "var(--space-5)" }}>
+        <p className={styles.muted} style={{ fontSize: 14 }}>
+          Write your attempt on the <strong>Your answer</strong> tab, then mark it against the model answer.
+        </p>
+        <Button variant="secondary" onClick={onGet} loading={busy}>Get feedback on my attempt</Button>
       </div>
-      <p><strong>Issues spotted:</strong> {feedback.issuesSpotted.join(", ") || "—"}</p>
-      <p><strong>Issues missed:</strong> {feedback.issuesMissed.join(", ") || "—"}</p>
-      {feedback.structureNotes ? <p><strong>Structure:</strong> {feedback.structureNotes}</p> : null}
-      {feedback.applicationDepthNotes ? <p><strong>Application:</strong> {feedback.applicationDepthNotes}</p> : null}
-      <p><strong>Next steps:</strong></p>
-      <ul>
-        {feedback.actions.map((a, i) => (
-          <li key={i}>{a}</li>
-        ))}
-      </ul>
-    </Card>
-  );
-}
-
-function ByoKeyControl({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const [open, setOpen] = useState(false);
+    );
+  }
   return (
-    <div>
-      <Button variant="ghost" small onClick={() => setOpen((o) => !o)}>
-        {value ? "🔑 Using your own key — edit" : "Use your own API key (unlimited)"}
-      </Button>
-      {open ? (
-        <div style={{ marginTop: "var(--space-2)", maxWidth: 460 }}>
-          <p className={styles.muted}>
-            Paste your own provider API key to bypass the shared free limit. It is stored only in this browser and sent directly per request — never logged or saved on our servers.
-          </p>
-          <div className={styles.row}>
-            <input
-              className={styles.input}
-              type="password"
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              placeholder="sk-…"
-              style={{ flex: 1, minWidth: 240 }}
-            />
-            {value ? (
-              <Button variant="ghost" small onClick={() => onChange("")}>
-                Clear
-              </Button>
-            ) : null}
-          </div>
-        </div>
+    <div style={{ marginTop: "var(--space-5)" }}>
+      {feedback.outOfCorpusCitations.length > 0 ? (
+        <Notice tone="warn" heading="Authorities outside your materials">
+          Your attempt cited: {feedback.outOfCorpusCitations.join(", ")}. In an exam, citing outside your syllabus
+          can cost marks.
+        </Notice>
       ) : null}
+      <div style={{ marginTop: "var(--space-4)" }}>
+        <RubricScorecard rubric={feedback.rubric} />
+      </div>
+      <div style={{ marginTop: "var(--space-4)", display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+        <p style={{ margin: 0 }}><strong>Issues spotted:</strong> {feedback.issuesSpotted.join(", ") || "—"}</p>
+        <p style={{ margin: 0 }}><strong>Issues missed:</strong> {feedback.issuesMissed.join(", ") || "—"}</p>
+        {feedback.structureNotes ? <p style={{ margin: 0 }}><strong>Structure:</strong> {feedback.structureNotes}</p> : null}
+        {feedback.applicationDepthNotes ? (
+          <p style={{ margin: 0 }}><strong>Application:</strong> {feedback.applicationDepthNotes}</p>
+        ) : null}
+      </div>
+      <div style={{ marginTop: "var(--space-3)" }}>
+        <p style={{ margin: "0 0 var(--space-1)" }}><strong>Next steps</strong></p>
+        <ul style={{ margin: 0, paddingLeft: "var(--space-5)" }}>
+          {feedback.actions.map((a, i) => (
+            <li key={i}>{a}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

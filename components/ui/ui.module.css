@@ -1,100 +1,126 @@
+/* UI primitives — tokens only (a linter forbids raw hex here). */
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 10px 18px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 11px 18px;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
-  font: inherit;
-  font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  white-space: nowrap;
+  transition: background .15s ease, border-color .15s ease, opacity .15s ease;
+}
+.btnLg { padding: 14px 24px; font-size: 16px; border-radius: 10px; }
+.btnSm { padding: 8px 13px; font-size: 12.5px; }
+.btnBlock { width: 100%; }
+
+.primary { background: var(--primary); color: var(--on-primary); }
+.primary:hover:not(:disabled) { background: var(--primary-deep); }
+
+.secondary { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
+.secondary:hover:not(:disabled) { border-color: var(--text-muted); }
+
+.ghost { background: transparent; color: var(--primary); }
+.ghost:hover:not(:disabled) { background: var(--surface-2); }
+
+.danger { background: var(--danger); color: var(--on-primary); }
+
+.btn:disabled { background: var(--surface-2); color: var(--disabled-text); cursor: not-allowed; border-color: transparent; }
+.arrow { font-size: 1.15em; line-height: 1; }
+
+/* Input */
+.input {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 11px 13px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.input:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-focus);
+}
+.input::placeholder { color: var(--text-muted); }
+
+/* Segmented control */
+.segment {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 3px;
+}
+.segmentBtn {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s ease, color .15s ease;
+}
+.segmentActive { background: var(--primary); color: var(--on-primary); box-shadow: var(--shadow-sm); }
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 4px 10px;
+  border: 1px solid transparent;
   white-space: nowrap;
 }
-.btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-.primary {
-  background: var(--primary);
-  color: var(--primary-fg);
-}
-.primary:hover:not(:disabled) {
-  background: var(--primary-hover);
-}
-.secondary {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--border-strong);
-}
-.secondary:hover:not(:disabled) {
-  background: var(--surface-2);
-}
-.ghost {
-  background: transparent;
-  color: var(--primary);
-}
-.ghost:hover:not(:disabled) {
-  background: var(--surface-2);
-}
-.danger {
-  background: var(--danger);
-  color: var(--primary-fg);
-}
-.small {
-  padding: 6px 12px;
-  font-size: 0.875rem;
-}
+.badgeCase { color: var(--primary); background: var(--case-bg); border-color: var(--case-border); }
+.badgeStatute { color: var(--accent-deep); background: var(--accent-tint); border-color: var(--accent-chip-border-soft); }
+.badgeNotes { color: var(--badge-notes-text); background: var(--badge-notes-bg); border-color: var(--badge-notes-border); }
+.badgeSlides { color: var(--warn); background: var(--badge-slides-bg); border-color: var(--badge-slides-border); }
+.badgeVerified { color: var(--accent-deep); background: var(--accent-tint); border-color: var(--accent-chip-border); }
+.badgeWarn { color: var(--warn); background: var(--warn-tint); border-color: var(--badge-slides-border); }
+.badgeDraft { color: var(--text-muted); background: var(--surface-2); border-color: var(--border); }
 
+/* Card */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 13px;
   box-shadow: var(--shadow-sm);
   padding: var(--space-5);
 }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 10px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 600;
+/* Notice */
+.notice {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--neutral-line);
   background: var(--surface-2);
-  color: var(--text-muted);
-  border: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.55;
 }
-.badgeSuccess {
-  background: var(--success-bg);
-  color: var(--success);
-  border-color: transparent;
-}
-.badgeWarn {
-  background: var(--warn-bg);
-  color: var(--warn);
-  border-color: transparent;
-}
-.badgeDanger {
-  background: var(--danger-bg);
-  color: var(--danger);
-  border-color: transparent;
-}
-
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid color-mix(in srgb, var(--primary) 30%, transparent);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  display: inline-block;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+.noticeInfo { border-left-color: var(--neutral-line); background: var(--surface-2); color: var(--text); }
+.noticeWarn { border-left-color: var(--warn); background: var(--warn-tint); color: var(--text); }
+.noticeDanger { border-left-color: var(--danger); background: var(--danger-tint); color: var(--text); }
+.noticeIcon { flex: none; color: var(--text-muted); margin-top: 1px; }
+.noticeHeading { font-family: var(--font-serif); font-weight: 600; font-size: 16px; margin: 0 0 2px; }

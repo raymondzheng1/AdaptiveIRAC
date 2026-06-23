@@ -5,4 +5,4 @@
  * --primary / --bg for those non-CSS consumers. Keep them in sync.
  */
 export const BRAND_PRIMARY = "#1f3a8a"; // --primary
-export const BRAND_BG = "#f7f8fa"; // --bg
+export const BRAND_BG = "#f5f3ee"; // --bg (warm paper)

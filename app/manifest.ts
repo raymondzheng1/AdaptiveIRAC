@@ -4,8 +4,8 @@ import { BRAND_BG, BRAND_PRIMARY } from "@/lib/brand";
 /** Web app manifest — makes the app installable (harness §19.2). */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Adaptive IRAC — grounded exam practice",
-    short_name: "Adaptive IRAC",
+    name: "Pincite — model answers you can actually cite",
+    short_name: "Pincite",
     description:
       "Turn your own course materials into exam practice with verified, pinpointed citations.",
     start_url: "/",

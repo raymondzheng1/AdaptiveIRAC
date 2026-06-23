@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Mark } from "@/components/brand/Mark";
+import { Button } from "@/components/ui";
 import { track } from "@/components/analytics";
 
 /** The beforeinstallprompt event (not in the standard DOM lib types). */
@@ -9,13 +11,13 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
-const DISMISS_KEY = "airac.installDismissed"; // sessionStorage — returns next session
-const INSTALLED_KEY = "airac.installed"; // localStorage — permanent once installed
+const DISMISS_KEY = "pincite.installDismissed"; // sessionStorage — returns next session
+const INSTALLED_KEY = "pincite.installed"; // localStorage — permanent once installed
 
 /**
  * Install affordance (harness §19.2): rendered by default, upgraded to a one-tap
- * Install button once beforeinstallprompt fires, with a manual hint otherwise.
- * Dismiss is per-session only; the sole permanent hide is "installed".
+ * button once beforeinstallprompt fires, with a manual hint otherwise. Dismiss is
+ * per-session only; the sole permanent hide is "installed".
  */
 export function InstallPrompt() {
   const [visible, setVisible] = useState(false);
@@ -31,7 +33,6 @@ export function InstallPrompt() {
     if (standalone || installed || dismissed) return;
 
     setVisible(true);
-
     const onBeforeInstall = (e: Event) => {
       e.preventDefault();
       setDeferred(e as BeforeInstallPromptEvent);
@@ -51,8 +52,7 @@ export function InstallPrompt() {
 
   if (!visible) return null;
 
-  const isIos =
-    typeof navigator !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isIos = typeof navigator !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent);
 
   const install = async () => {
     if (!deferred) return;
@@ -61,7 +61,6 @@ export function InstallPrompt() {
     await deferred.userChoice;
     setDeferred(null);
   };
-
   const dismiss = () => {
     if (typeof window !== "undefined") window.sessionStorage.setItem(DISMISS_KEY, "1");
     setVisible(false);
@@ -70,60 +69,43 @@ export function InstallPrompt() {
   return (
     <div
       role="region"
-      aria-label="Install app"
+      aria-label="Install Pincite"
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "var(--space-3)",
+        justifyContent: "space-between",
+        gap: "var(--space-6)",
         flexWrap: "wrap",
         background: "var(--surface)",
         border: "1px solid var(--border)",
-        borderRadius: "var(--radius)",
+        borderRadius: "14px",
         boxShadow: "var(--shadow-sm)",
-        padding: "var(--space-3) var(--space-4)",
-        margin: "var(--space-4) auto 0",
-        maxWidth: "520px",
+        padding: "22px 26px",
       }}
     >
-      <span style={{ flex: 1, minWidth: "200px", fontSize: "0.92rem", color: "var(--text-muted)" }}>
-        <strong style={{ color: "var(--text)" }}>Install Adaptive IRAC</strong> for one-tap access — it
-        works like an app and keeps your practice on this device.
-      </span>
-      {deferred ? (
-        <button
-          onClick={install}
-          style={{
-            border: "none",
-            background: "var(--primary)",
-            color: "var(--primary-fg)",
-            fontWeight: 700,
-            padding: "9px 16px",
-            borderRadius: "var(--radius-sm)",
-            cursor: "pointer",
-          }}
-        >
-          Install
-        </button>
-      ) : (
-        <span style={{ fontSize: "0.85rem", color: "var(--text-faint)", minWidth: "180px" }}>
-          {isIos ? "Tap Share, then “Add to Home Screen”." : "Use “Install” from your browser menu."}
-        </span>
-      )}
-      <button
-        onClick={dismiss}
-        aria-label="Dismiss"
-        style={{
-          border: "none",
-          background: "transparent",
-          color: "var(--text-faint)",
-          fontSize: "1.2rem",
-          lineHeight: 1,
-          cursor: "pointer",
-          padding: "4px 8px",
-        }}
-      >
-        ×
-      </button>
+      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-4)", minWidth: 0 }}>
+        <Mark size={44} />
+        <div>
+          <div style={{ fontFamily: "var(--font-serif)", fontSize: "21px", fontWeight: 600 }}>
+            Install Pincite
+          </div>
+          <p style={{ fontSize: "14.5px", lineHeight: 1.5, color: "var(--text-muted)", margin: "4px 0 0" }}>
+            Add it to your home screen for one-tap revision between classes.
+          </p>
+        </div>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+        {deferred ? (
+          <Button onClick={install}>Add to home screen</Button>
+        ) : (
+          <span style={{ fontSize: "13.5px", color: "var(--text-muted)", maxWidth: "22ch" }}>
+            {isIos ? "Tap Share, then “Add to Home Screen”." : "Use “Install” from your browser menu."}
+          </span>
+        )}
+        <Button variant="ghost" size="sm" onClick={dismiss} aria-label="Dismiss install prompt">
+          ×
+        </Button>
+      </div>
     </div>
   );
 }

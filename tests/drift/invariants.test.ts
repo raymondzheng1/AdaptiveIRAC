@@ -47,7 +47,12 @@ describe("invariant: every model answer passes verification", () => {
 });
 
 describe("invariant: no AI/vendor mentions in customer copy", () => {
-  const SURFACES = ["app/page.tsx", "app/practice/page.tsx", "components/practice/CitationList.tsx"];
+  const SURFACES = [
+    "app/page.tsx",
+    "app/practice/page.tsx",
+    "components/landing/WorkedExample.tsx",
+    "components/answer/IracAnswer.tsx",
+  ];
   const FORBIDDEN = /\b(claude|anthropic|openai|chatgpt|llm)\b/i;
   for (const file of SURFACES) {
     it(`${file} contains no AI/vendor mention`, () => {

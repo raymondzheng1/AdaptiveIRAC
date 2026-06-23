@@ -3,9 +3,17 @@
    Drop-in design-token system for Next.js (App Router) + plain CSS.
    No Tailwind. Every component must read these tokens (a hardcoded-hex
    linter enforces tokens-only in components) — never inline a raw hex.
-   Fonts are loaded via next/font (app/layout.tsx) and exposed as
-   --font-newsreader / --font-hanken / --font-plex.
    ===================================================================== */
+
+/* ---- Fonts -----------------------------------------------------------
+   Load ONLY the weights below (kept lean for first paint). Prefer
+   self-hosting via next/font/google in production; the @import is a
+   fallback for quick starts.
+   - Newsreader  : 400, 500, 600  + italic 400, 500   (display / serif prose)
+   - Hanken Grotesk: 400, 500, 600, 700               (body / UI)
+   - IBM Plex Mono : 400, 500                          (citations / labels)
+--------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
   /* ---- Surfaces & ink ---- */
@@ -22,7 +30,8 @@
   --primary-deep:  #172a63;   /* navy hover/active                      */
 
   /* ---- The verified/grounded signal (RESERVED) ----
-     Jade is only ever used to mean "checked / correct / grounded". */
+     Jade is only ever used to mean "checked / correct / grounded".
+     Do not use it for generic decoration. */
   --accent:        #0f766e;   /* jade — verification signal             */
   --accent-deep:   #0b5a53;   /* jade text on tint, hover               */
   --accent-tint:   #e4f0ee;   /* jade wash for verified surfaces        */
@@ -30,35 +39,7 @@
   /* ---- Status ---- */
   --success:       #0f766e;   /* == --accent (verification is success)  */
   --danger:        #b42318;
-  --danger-tint:   #fbeeec;
   --warn:          #b45309;
-  --warn-tint:     #fdf3e7;
-  --neutral-line:  #94a3b8;   /* calm slate rule (honest "couldn't ground" state) */
-
-  /* ---- Colour on dark fields (navy/jade) ---- */
-  --on-primary:        #ffffff;  /* white text/icons on navy or jade     */
-  --on-primary-muted:  #d7e0f6;  /* body text on the navy privacy band   */
-  --on-primary-faint:  #a9bdf0;  /* eyebrow on the navy band             */
-  --accent-on-primary: #7fd1c7;  /* jade tick drawn on navy              */
-  --disabled-text:     #9aa1ad;  /* disabled button text                 */
-
-  /* ---- Badge palettes (authority types) ---- */
-  --badge-notes-text:   #475569;
-  --badge-notes-bg:     #eef1f4;
-  --badge-notes-border: #dde3ea;
-  --badge-slides-bg:    #fdf3e7;
-  --badge-slides-border:#f3dcbf;
-
-  /* ---- Recurring translucent tints (so components stay hex-free) ---- */
-  --case-bg:           rgba(31,58,138,.08);
-  --case-border:       rgba(31,58,138,.2);
-  --accent-chip-bg:    var(--accent-tint);
-  --accent-chip-border:rgba(15,118,110,.22);
-  --accent-chip-border-soft: rgba(15,118,110,.2);
-  --accent-divider:    rgba(15,118,110,.18);
-  --primary-halo:      rgba(31,58,138,.14);
-  --primary-focus:     rgba(31,58,138,.16);
-  --on-primary-soft:   rgba(255,255,255,.08);
 
   /* ---- Radius ---- */
   --radius-sm: 8px;           /* chips, inputs, small buttons           */
@@ -81,15 +62,13 @@
   --space-12: 48px;
   --space-16: 64px;
 
-  /* ---- Type families (next/font fills the *-newsreader/hanken/plex vars) ---- */
-  --font-serif: var(--font-newsreader), Georgia, 'Times New Roman', serif;
-  --font-sans:  var(--font-hanken), system-ui, -apple-system, sans-serif;
-  --font-mono:  var(--font-plex), ui-monospace, 'SF Mono', monospace;
+  /* ---- Type families ---- */
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans:  'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono:  'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
 
   /* ---- PWA / theme ---- */
   --theme-color: #1f3a8a;
-
-  --maxw: 1080px;
 }
 
 /* ---- Base reset ---- */
@@ -117,7 +96,6 @@ body {
 }
 
 h1, h2, h3 { font-family: var(--font-serif); font-weight: 500; letter-spacing: -.015em; line-height: 1.1; margin: 0; }
-a { color: var(--primary); }
 
 /* Visible, on-brand focus ring for keyboard users (WCAG 2.1 AA) */
 :focus-visible {
@@ -127,17 +105,6 @@ a { color: var(--primary); }
 }
 
 ::selection { background: var(--accent-tint); }
-
-.container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--space-10); }
-
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-  .container { padding: 0 var(--space-5); }
-}
 
 /* Respect reduced-motion everywhere */
 @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="icon" href="favicon.svg">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;}
+    body{margin:0;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+    @keyframes pcPulse{0%,100%{opacity:.25;transform:translateY(0);}50%{opacity:1;transform:translateY(-3px);}}
+    @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;}}
+  </style>
+</helmet>
+
+<div style="--bg:#f5f3ee; --surface:#fdfcfa; --surface-2:#efece3; --border:#e4dfd4; --border-strong:#d8d2c4; --text:#1b2230; --text-muted:#5c6573; --primary:#1f3a8a; --primary-deep:#172a63; --accent:#0f766e; --accent-deep:#0b5a53; --accent-tint:#e4f0ee; --danger:#b42318; --warn:#b45309; --radius-sm:8px; --radius:12px; --radius-lg:18px; --shadow-sm:0 1px 2px rgba(24,33,58,.06); --shadow:0 1px 3px rgba(24,33,58,.05),0 18px 40px -22px rgba(24,33,58,.28); --font-serif:'Newsreader',Georgia,serif; --font-sans:'Hanken Grotesk',system-ui,sans-serif; --font-mono:'IBM Plex Mono',ui-monospace,monospace; font-family:var(--font-sans); color:var(--text); background:#dcd6c9; width:max-content; min-width:100%; min-height:100vh; box-sizing:border-box; padding:48px;">
+
+  <div style="display:flex; align-items:center; gap:13px; margin-bottom:8px;">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="font-family:var(--font-serif); font-size:21px; font-weight:600; letter-spacing:-.015em;">Pincite — Model answer · the hero moment</span>
+  </div>
+  <div style="display:flex; align-items:center; gap:14px; margin-bottom:34px; flex-wrap:wrap;">
+    <span style="font-family:var(--font-mono); font-size:12px; color:#7c756a; letter-spacing:.04em;">The verified answer + click-to-source. Press</span>
+    <button type="button" onClick="{{ replay }}" style="font-family:var(--font-sans); font-weight:600; font-size:12.5px; color:#fff; background:var(--accent); border:none; padding:7px 14px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:7px;" style-hover="background:var(--accent-deep);"><svg width="13" height="13" viewBox="0 0 24 24"><path d="M20 11a8 8 0 10-2.3 5.7M20 11V5M20 11h-6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Replay the reveal</button>
+    <span style="font-family:var(--font-mono); font-size:12px; color:#7c756a; letter-spacing:.04em;">· click any citation to open its source</span>
+  </div>
+
+  <div style="display:flex; gap:56px; align-items:flex-start;">
+
+    <!-- ============ DESKTOP ============ -->
+    <div style="flex:none; width:1200px;">
+      <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6f6859; margin-bottom:12px;">Desktop · 1200</div>
+      <div style="background:var(--bg); border-radius:14px; box-shadow:var(--shadow); overflow:hidden; border:1px solid var(--border);">
+
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:20px; padding:13px 24px; background:var(--surface); border-bottom:1px solid var(--border);">
+          <div style="display:flex; align-items:center; gap:11px;">
+            <svg width="27" height="27" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-family:var(--font-serif); font-size:21px; font-weight:600; letter-spacing:-.02em;">Pincite</span>
+          </div>
+          <div style="display:flex; align-items:center; flex:none;">
+            <div style="display:flex; align-items:center; gap:8px;"><span style="width:24px; height:24px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:13px; font-weight:600; color:var(--text); white-space:nowrap;">Upload</span></div>
+            <span style="width:30px; height:2px; background:var(--accent); margin:0 12px;"></span>
+            <div style="display:flex; align-items:center; gap:8px;"><span style="width:24px; height:24px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:13px; font-weight:600; color:var(--text); white-space:nowrap;">Authorities</span></div>
+            <span style="width:30px; height:2px; background:var(--primary); margin:0 12px;"></span>
+            <div style="display:flex; align-items:center; gap:8px;"><span style="width:24px; height:24px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:12px; box-shadow:0 0 0 4px rgba(31,58,138,.14);">3</span><span style="font-size:13px; font-weight:700; color:var(--text); white-space:nowrap;">Practise</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="display:flex; flex-direction:column; gap:4px; min-width:128px;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between;"><span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted);">Free session</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text);">$1.20 / $5</span></div>
+              <span style="height:6px; background:var(--surface-2); border-radius:999px; overflow:hidden;"><span style="display:block; width:24%; height:100%; background:var(--accent); border-radius:999px;"></span></span>
+            </div>
+            <button type="button" style="font-family:var(--font-sans); font-weight:600; font-size:12.5px; color:var(--primary); background:transparent; border:1px solid var(--border-strong); padding:8px 13px; border-radius:8px; cursor:pointer; white-space:nowrap;" style-hover="border-color:var(--primary);">Use my key</button>
+          </div>
+        </div>
+
+        <div style="max-width:1040px; margin:0 auto; padding:26px 32px 40px;">
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:13px; padding:18px 20px; box-shadow:var(--shadow-sm);">
+            <div style="display:flex; align-items:center; gap:10px;"><span style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted);">Question · Torts — Negligence</span><span style="font-family:var(--font-mono); font-size:10px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.2); padding:2px 7px; border-radius:5px; white-space:nowrap;">Hypothetical · 10 marks</span></div>
+            <p style="font-family:var(--font-serif); font-size:18px; line-height:1.55; margin:9px 0 0;">Marko dives from a council-managed jetty into a swimming hole and strikes a submerged sandbar, sustaining a serious neck injury. The depth was not marked and no warning was displayed, though locals dived there often. Advise whether the Council owed Marko a duty of care and whether it breached that duty.</p>
+          </div>
+
+          <div style="display:flex; gap:4px; margin-top:22px; border-bottom:1px solid var(--border);">
+            <span style="font-family:var(--font-sans); font-size:14px; font-weight:600; color:var(--text-muted); padding:11px 16px;">Your answer</span>
+            <span style="font-family:var(--font-sans); font-size:14px; font-weight:700; color:var(--primary); padding:11px 16px; border-bottom:2px solid var(--primary); margin-bottom:-1px;">Model answer</span>
+            <span style="font-family:var(--font-sans); font-size:14px; font-weight:600; color:var(--text-muted); padding:11px 16px;">Feedback</span>
+          </div>
+
+          <!-- IDLE -->
+          <sc-if value="{{ isIdle }}" hint-placeholder-val="{{ false }}">
+            <div style="position:relative; margin-top:22px; border:1px solid var(--border); border-radius:14px; overflow:hidden; background:var(--surface); min-height:340px;">
+              <div style="padding:26px; filter:blur(3px); opacity:.5; user-select:none;">
+                <div style="height:12px; width:120px; background:var(--surface-2); border-radius:6px;"></div>
+                <div style="height:14px; width:90%; background:var(--surface-2); border-radius:6px; margin-top:16px;"></div>
+                <div style="height:14px; width:96%; background:var(--surface-2); border-radius:6px; margin-top:10px;"></div>
+                <div style="height:14px; width:80%; background:var(--surface-2); border-radius:6px; margin-top:10px;"></div>
+                <div style="height:12px; width:120px; background:var(--surface-2); border-radius:6px; margin-top:26px;"></div>
+                <div style="height:14px; width:93%; background:var(--surface-2); border-radius:6px; margin-top:16px;"></div>
+                <div style="height:14px; width:88%; background:var(--surface-2); border-radius:6px; margin-top:10px;"></div>
+              </div>
+              <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:7px;">
+                <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2.2" fill="none" stroke="var(--primary)" stroke-width="1.7"/><path d="M8 10.5V8a4 4 0 018 0v2.5" fill="none" stroke="var(--primary)" stroke-width="1.7"/></svg>
+                <div style="font-family:var(--font-serif); font-size:22px; font-weight:600;">Your model answer is ready</div>
+                <p style="font-size:14.5px; color:var(--text-muted); max-width:42ch; margin:0;">Reveal it to compare against your attempt. Every citation will be verified against your materials.</p>
+                <button type="button" onClick="{{ reveal }}" style="margin-top:10px; font-family:var(--font-sans); font-weight:600; font-size:15px; color:#fff; background:var(--primary); border:none; padding:13px 24px; border-radius:10px; cursor:pointer; display:inline-flex; align-items:center; gap:9px;" style-hover="background:var(--primary-deep);">Reveal model answer <span style="font-size:17px; line-height:1;">→</span></button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- COMPOSING -->
+          <sc-if value="{{ isComposing }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:22px; border:1px solid var(--border); border-radius:14px; background:var(--surface); min-height:340px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;">
+              <div style="display:flex; gap:7px;"><span style="width:9px; height:9px; border-radius:50%; background:var(--accent); animation:pcPulse 1s ease-in-out infinite;"></span><span style="width:9px; height:9px; border-radius:50%; background:var(--accent); animation:pcPulse 1s ease-in-out .15s infinite;"></span><span style="width:9px; height:9px; border-radius:50%; background:var(--accent); animation:pcPulse 1s ease-in-out .3s infinite;"></span></div>
+              <div style="font-family:var(--font-serif); font-size:18px; font-weight:600; color:var(--text);">Composing your model answer…</div>
+              <div style="font-size:13.5px; color:var(--text-muted);">Checking each authority against your materials</div>
+            </div>
+          </sc-if>
+
+          <!-- REVEALED -->
+          <sc-if value="{{ isRevealed }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top:22px;">
+              <div style="{{ a.banner }}">
+                <div style="display:flex; align-items:center; gap:14px; background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:13px; padding:15px 18px;">
+                  <span style="{{ a.check }}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--accent)"/><path d="M6.6 12.4l3.3 3.3L17 8.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  <div style="flex:1;"><div style="font-size:15.5px; font-weight:600; color:var(--accent-deep);">Every citation verified against your materials</div><div style="font-size:13px; color:var(--text-muted); margin-top:2px;">4 authorities · all pinpointed to source · nothing cited from outside your corpus</div></div>
+                  <span style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px; color:var(--text-muted); white-space:nowrap;"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.2-2.9 7.4-7 8.8C7.9 18.4 5 15.2 5 11V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>in memory</span>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 320px; gap:26px; margin-top:20px; align-items:start;">
+                <div>
+                  <div style="{{ a.issue }}">
+                    <div style="padding-left:16px; border-left:2px solid var(--accent-tint);">
+                      <div style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Issue</div>
+                      <p style="font-family:var(--font-serif); font-size:17px; line-height:1.68; margin:6px 0 0;">Whether the Council owed Marko a duty of care in respect of the unmarked depth at the swimming hole, and if so, whether it breached that duty by failing to warn.</p>
+                    </div>
+                  </div>
+                  <div style="{{ a.rule }}">
+                    <div style="padding-left:16px; border-left:2px solid var(--accent-tint); margin-top:18px;">
+                      <div style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Rule</div>
+                      <p style="font-family:var(--font-serif); font-size:17px; line-height:1.68; margin:6px 0 0;">A duty of care arises where the defendant ought reasonably to have foreseen that carelessness on its part could injure a class of persons including the plaintiff <button type="button" onClick="{{ open.donoghue }}" style="display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:12.5px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:6px; padding:0 7px; cursor:pointer; vertical-align:baseline; white-space:nowrap;" style-hover="border-color:var(--accent);"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);"></span>Donoghue</button>. An occupier that controls land owes entrants a duty to take reasonable care to avoid foreseeable risks of injury <button type="button" onClick="{{ open.s5b }}" style="display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:12.5px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:6px; padding:0 7px; cursor:pointer; vertical-align:baseline; white-space:nowrap;" style-hover="border-color:var(--accent);"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);"></span>CLA s 5B</button>. Breach is determined by the calculus of negligence: the probability and likely seriousness of the harm weighed against the burden of precautions and the social utility of the activity <button type="button" onClick="{{ open.shirt }}" style="display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:12.5px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:6px; padding:0 7px; cursor:pointer; vertical-align:baseline; white-space:nowrap;" style-hover="border-color:var(--accent);"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);"></span>Shirt</button>.</p>
+                    </div>
+                  </div>
+                  <div style="{{ a.app }}">
+                    <div style="padding-left:16px; border-left:2px solid var(--accent-tint); margin-top:18px;">
+                      <div style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Application</div>
+                      <p style="font-family:var(--font-serif); font-size:17px; line-height:1.68; margin:6px 0 0;">Swimmers habitually used the jetty, so injury from diving into water of unknown depth was reasonably foreseeable — it was not far-fetched or fanciful <button type="button" onClick="{{ open.shirt }}" style="display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:12.5px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:6px; padding:0 7px; cursor:pointer; vertical-align:baseline; white-space:nowrap;" style-hover="border-color:var(--accent);"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);"></span>Shirt</button>. A comparable swimming-hazard duty was recognised where an authority invited public use of a waterway <button type="button" onClick="{{ open.nagle }}" style="display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:12.5px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:6px; padding:0 7px; cursor:pointer; vertical-align:baseline; white-space:nowrap;" style-hover="border-color:var(--accent);"><span style="width:5px;height:5px;border-radius:50%;background:var(--accent);"></span>Nagle</button>. The gravity of a neck injury is high, while the burden of a depth sign was slight; a reasonable authority would have taken that precaution.</p>
+                    </div>
+                  </div>
+                  <div style="{{ a.concl }}">
+                    <div style="padding-left:16px; border-left:2px solid var(--accent-tint); margin-top:18px;">
+                      <div style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Conclusion</div>
+                      <p style="font-family:var(--font-serif); font-size:17px; line-height:1.68; margin:6px 0 0;">The Council owed Marko a duty of care and, on the balance of the calculus, likely breached it by failing to warn of the unmarked depth. Final liability remains subject to causation and any reduction for contributory negligence.</p>
+                    </div>
+                  </div>
+
+                  <div style="{{ a.auth }}">
+                    <div style="margin-top:24px; padding-top:18px; border-top:1px solid var(--border);">
+                      <div style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted); margin-bottom:11px;">Authorities used · 4 — click any to open its source</div>
+                      <div style="display:flex; flex-wrap:wrap; gap:9px;">
+                        <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+                          <button type="button" onClick="{{ c.onOpen }}" style="display:inline-flex; align-items:center; gap:9px; font-family:var(--font-sans); font-size:13px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); padding:8px 12px; border-radius:9px; cursor:pointer; transition:border-color .15s, background .15s;" style-hover="border-color:var(--accent); background:var(--accent-tint);">
+                            <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.2); padding:2px 6px; border-radius:5px;">{{ c.type }}</span>
+                            <span style="font-weight:600;">{{ c.short }}</span>
+                            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">{{ c.where }}</span>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <aside style="position:sticky; top:18px;">
+                  <div style="{{ a.rail }}">
+                    <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ true }}">
+                      <div style="background:var(--surface); border:1px solid var(--border-strong); border-radius:14px; box-shadow:var(--shadow); overflow:hidden;">
+                        <div style="display:flex; align-items:center; gap:8px; padding:12px 15px; background:var(--accent-tint); border-bottom:1px solid rgba(15,118,110,.18);">
+                          <svg width="16" height="16" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                          <span style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-deep); font-weight:500;">Verified source</span>
+                          <button type="button" onClick="{{ closeCite }}" aria-label="Close" style="margin-left:auto; font-size:17px; line-height:1; color:var(--text-muted); background:transparent; border:none; cursor:pointer;">×</button>
+                        </div>
+                        <div style="padding:16px;">
+                          <div style="display:flex; align-items:center; gap:7px;"><span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.2); padding:2px 6px; border-radius:5px;">{{ active.type }}</span><span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-muted);">{{ active.where }}</span></div>
+                          <div style="font-family:var(--font-serif); font-size:18px; font-weight:600; line-height:1.25; margin-top:9px;">{{ active.name }}</div>
+                          <div style="margin-top:12px; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:13px;">
+                            <div style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); margin-bottom:7px;">Exact passage · {{ active.where }}</div>
+                            <p style="font-family:var(--font-serif); font-size:14.5px; line-height:1.62; margin:0; color:var(--text);">“{{ active.snippet }}”</p>
+                          </div>
+                          <button type="button" style="margin-top:13px; width:100%; font-family:var(--font-sans); font-weight:600; font-size:13px; color:var(--primary); background:var(--surface); border:1px solid var(--border-strong); padding:10px; border-radius:9px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:7px;" style-hover="border-color:var(--primary);">Open in your materials <span style="font-size:14px;">↗</span></button>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MOBILE ============ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6f6859; margin-bottom:12px;">Mobile · 390</div>
+      <div style="background:#11151f; border-radius:42px; padding:11px; box-shadow:var(--shadow); border:1px solid #11151f;">
+        <div style="background:var(--bg); border-radius:32px; overflow:hidden; position:relative;">
+          <div style="position:relative; height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; background:var(--surface);">
+            <span style="font-family:var(--font-sans); font-size:13px; font-weight:600; color:var(--text);">9:41</span>
+            <div style="position:absolute; left:50%; top:9px; transform:translateX(-50%); width:108px; height:26px; background:#11151f; border-radius:999px;"></div>
+            <div style="display:flex; align-items:center; gap:5px;"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="3" width="3" height="8" rx="1" fill="var(--text)"/><rect x="4.5" y="1.5" width="3" height="9.5" rx="1" fill="var(--text)"/><rect x="9" y="0" width="3" height="11" rx="1" fill="var(--text)"/><rect x="13.5" y="4" width="3" height="7" rx="1" fill="var(--text)" opacity=".35"/></svg><svg width="22" height="11" viewBox="0 0 24 12"><rect x="1" y="1" width="20" height="10" rx="2.5" fill="none" stroke="var(--text)" stroke-width="1" opacity=".5"/><rect x="2.5" y="2.5" width="15" height="7" rx="1" fill="var(--text)"/><rect x="22" y="4" width="1.5" height="4" rx="1" fill="var(--text)" opacity=".5"/></svg></div>
+          </div>
+
+          <div style="padding:9px 16px; background:var(--surface); border-bottom:1px solid var(--border);">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <div style="display:flex; align-items:center; gap:8px;"><svg width="23" height="23" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="var(--primary)"/><path d="M9.6 16.5l4.2 4.3L22.4 11.2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:var(--font-serif); font-size:18px; font-weight:600;">Pincite</span></div>
+              <span style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:10.5px; color:var(--text); background:var(--bg); border:1px solid var(--border-strong); padding:5px 9px; border-radius:999px;"><span style="width:34px; height:5px; background:var(--surface-2); border-radius:999px; overflow:hidden; display:inline-block;"><span style="display:block; width:24%; height:100%; background:var(--accent);"></span></span>$1.20</span>
+            </div>
+            <div style="display:flex; align-items:center; margin-top:9px;">
+              <span style="display:flex; align-items:center; gap:5px;"><span style="width:18px; height:18px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:11px; color:var(--text-muted);">Upload</span></span>
+              <span style="flex:1; height:2px; background:var(--accent); margin:0 7px;"></span>
+              <span style="display:flex; align-items:center; gap:5px;"><span style="width:18px; height:18px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:11px; color:var(--text-muted);">Auth.</span></span>
+              <span style="flex:1; height:2px; background:var(--primary); margin:0 7px;"></span>
+              <span style="display:flex; align-items:center; gap:5px;"><span style="width:18px; height:18px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:10px;">3</span><span style="font-size:11px; font-weight:700; color:var(--text);">Practise</span></span>
+            </div>
+          </div>
+
+          <div style="padding:16px 16px 0;">
+            <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:14px;">
+              <div style="display:flex; align-items:center; gap:8px;"><span style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Question · Torts</span><span style="font-family:var(--font-mono); font-size:9px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.2); padding:1px 6px; border-radius:4px; white-space:nowrap;">10 marks</span></div>
+              <p style="font-family:var(--font-serif); font-size:15px; line-height:1.5; margin:7px 0 0;">Marko dives from a council jetty into a swimming hole, striking a submerged sandbar; the depth was unmarked. Advise on duty and breach.</p>
+            </div>
+            <div style="display:flex; gap:2px; margin-top:16px; border-bottom:1px solid var(--border);">
+              <span style="font-size:12.5px; font-weight:600; color:var(--text-muted); padding:9px 10px;">Your answer</span>
+              <span style="font-size:12.5px; font-weight:700; color:var(--primary); padding:9px 10px; border-bottom:2px solid var(--primary); margin-bottom:-1px;">Model answer</span>
+              <span style="font-size:12.5px; font-weight:600; color:var(--text-muted); padding:9px 10px;">Feedback</span>
+            </div>
+          </div>
+
+          <div style="padding:16px;">
+            <sc-if value="{{ isIdle }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative; border:1px solid var(--border); border-radius:13px; overflow:hidden; background:var(--surface); min-height:260px;">
+                <div style="padding:18px; filter:blur(3px); opacity:.5;">
+                  <div style="height:11px; width:80px; background:var(--surface-2); border-radius:5px;"></div>
+                  <div style="height:12px; width:92%; background:var(--surface-2); border-radius:5px; margin-top:13px;"></div>
+                  <div style="height:12px; width:85%; background:var(--surface-2); border-radius:5px; margin-top:9px;"></div>
+                  <div style="height:12px; width:90%; background:var(--surface-2); border-radius:5px; margin-top:9px;"></div>
+                </div>
+                <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:6px; padding:18px;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="9.5" rx="2.2" fill="none" stroke="var(--primary)" stroke-width="1.7"/><path d="M8 10.5V8a4 4 0 018 0v2.5" fill="none" stroke="var(--primary)" stroke-width="1.7"/></svg>
+                  <div style="font-family:var(--font-serif); font-size:18px; font-weight:600;">Your model answer is ready</div>
+                  <p style="font-size:13px; color:var(--text-muted); margin:0;">Reveal it to compare against your attempt.</p>
+                  <button type="button" onClick="{{ reveal }}" style="margin-top:8px; width:100%; font-family:var(--font-sans); font-weight:600; font-size:14.5px; color:#fff; background:var(--primary); border:none; padding:13px; border-radius:10px; cursor:pointer;">Reveal model answer →</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isComposing }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid var(--border); border-radius:13px; background:var(--surface); min-height:260px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; text-align:center; padding:18px;">
+                <div style="display:flex; gap:6px;"><span style="width:8px; height:8px; border-radius:50%; background:var(--accent); animation:pcPulse 1s ease-in-out infinite;"></span><span style="width:8px; height:8px; border-radius:50%; background:var(--accent); animation:pcPulse 1s ease-in-out .15s infinite;"></span><span style="width:8px; height:8px; border-radius:50%; background:var(--accent); animation:pcPulse 1s ease-in-out .3s infinite;"></span></div>
+                <div style="font-family:var(--font-serif); font-size:16px; font-weight:600;">Composing your model answer…</div>
+                <div style="font-size:12.5px; color:var(--text-muted);">Checking each authority against your materials</div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ isRevealed }}" hint-placeholder-val="{{ true }}">
+              <div>
+                <div style="{{ a.banner }}">
+                  <div style="display:flex; align-items:center; gap:11px; background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:12px; padding:13px;">
+                    <span style="{{ a.check }}"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--accent)"/><path d="M6.6 12.4l3.3 3.3L17 8.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div><div style="font-size:13.5px; font-weight:600; color:var(--accent-deep); line-height:1.3;">Every citation verified against your materials</div><div style="font-size:11.5px; color:var(--text-muted); margin-top:1px;">4 authorities · all pinpointed</div></div>
+                  </div>
+                </div>
+
+                <div style="{{ a.issue }}">
+                  <div style="padding-left:13px; border-left:2px solid var(--accent-tint); margin-top:16px;">
+                    <div style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Issue</div>
+                    <p style="font-family:var(--font-serif); font-size:15px; line-height:1.62; margin:5px 0 0;">Whether the Council owed Marko a duty of care for the unmarked depth, and if so whether it breached that duty by failing to warn.</p>
+                  </div>
+                </div>
+                <div style="{{ a.rule }}">
+                  <div style="padding-left:13px; border-left:2px solid var(--accent-tint); margin-top:14px;">
+                    <div style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Rule</div>
+                    <p style="font-family:var(--font-serif); font-size:15px; line-height:1.62; margin:5px 0 0;">A duty arises where injury to a class of persons is reasonably foreseeable <button type="button" onClick="{{ open.donoghue }}" style="display:inline-flex; align-items:center; gap:3px; font-family:var(--font-mono); font-size:11px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:5px; padding:0 6px; cursor:pointer; white-space:nowrap;"><span style="width:4px;height:4px;border-radius:50%;background:var(--accent);"></span>Donoghue</button>. Breach turns on the calculus of negligence <button type="button" onClick="{{ open.shirt }}" style="display:inline-flex; align-items:center; gap:3px; font-family:var(--font-mono); font-size:11px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:5px; padding:0 6px; cursor:pointer; white-space:nowrap;"><span style="width:4px;height:4px;border-radius:50%;background:var(--accent);"></span>Shirt</button>, codified at <button type="button" onClick="{{ open.s5b }}" style="display:inline-flex; align-items:center; gap:3px; font-family:var(--font-mono); font-size:11px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:5px; padding:0 6px; cursor:pointer; white-space:nowrap;"><span style="width:4px;height:4px;border-radius:50%;background:var(--accent);"></span>CLA s 5B</button>.</p>
+                  </div>
+                </div>
+                <div style="{{ a.app }}">
+                  <div style="padding-left:13px; border-left:2px solid var(--accent-tint); margin-top:14px;">
+                    <div style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Application</div>
+                    <p style="font-family:var(--font-serif); font-size:15px; line-height:1.62; margin:5px 0 0;">Diving injury here was not far-fetched or fanciful, so the risk was foreseeable <button type="button" onClick="{{ open.nagle }}" style="display:inline-flex; align-items:center; gap:3px; font-family:var(--font-mono); font-size:11px; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:5px; padding:0 6px; cursor:pointer; white-space:nowrap;"><span style="width:4px;height:4px;border-radius:50%;background:var(--accent);"></span>Nagle</button>. Signage was cheap relative to the gravity of a neck injury — weighing toward breach.</p>
+                  </div>
+                </div>
+                <div style="{{ a.concl }}">
+                  <div style="padding-left:13px; border-left:2px solid var(--accent-tint); margin-top:14px;">
+                    <div style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Conclusion</div>
+                    <p style="font-family:var(--font-serif); font-size:15px; line-height:1.62; margin:5px 0 0;">The Council likely owed and breached a duty; liability turns on causation and any contributory negligence.</p>
+                  </div>
+                </div>
+
+                <div style="{{ a.auth }}">
+                  <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--border);">
+                    <div style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); margin-bottom:9px;">Authorities used · 4 — tap to open source</div>
+                    <div style="display:flex; flex-direction:column; gap:7px;">
+                      <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+                        <button type="button" onClick="{{ c.onOpen }}" style="display:flex; align-items:center; gap:8px; width:100%; text-align:left; font-family:var(--font-sans); font-size:12.5px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); padding:8px 10px; border-radius:9px; cursor:pointer;">
+                          <span style="font-family:var(--font-mono); font-size:9px; letter-spacing:.05em; text-transform:uppercase; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.2); padding:2px 5px; border-radius:4px;">{{ c.type }}</span>
+                          <span style="font-weight:600;">{{ c.short }}</span>
+                          <span style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted); margin-left:auto;">{{ c.where }}</span>
+                        </button>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ true }}">
+                      <div style="margin-top:11px; background:var(--surface); border:1px solid var(--border-strong); border-radius:11px; box-shadow:var(--shadow-sm); overflow:hidden;">
+                        <div style="display:flex; align-items:center; gap:7px; padding:9px 12px; background:var(--accent-tint); border-bottom:1px solid rgba(15,118,110,.18);"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="var(--accent)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-deep); font-weight:500;">Verified source</span><button type="button" onClick="{{ closeCite }}" aria-label="Close" style="margin-left:auto; font-size:15px; line-height:1; color:var(--text-muted); background:transparent; border:none; cursor:pointer;">×</button></div>
+                        <div style="padding:13px;">
+                          <div style="display:flex; align-items:center; gap:6px;"><span style="font-family:var(--font-mono); font-size:9px; letter-spacing:.05em; text-transform:uppercase; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.2); padding:1px 5px; border-radius:4px;">{{ active.type }}</span><span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">{{ active.where }}</span></div>
+                          <div style="font-family:var(--font-serif); font-size:16px; font-weight:600; margin-top:6px; line-height:1.25;">{{ active.name }}</div>
+                          <p style="font-family:var(--font-serif); font-size:13.5px; line-height:1.6; margin:9px 0 0; color:var(--text);">“{{ active.snippet }}”</p>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <div style="height:calc(18px + env(safe-area-inset-bottom));"></div>
+          <div style="height:5px; width:130px; background:var(--text); opacity:.85; border-radius:999px; margin:0 auto 14px;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1760,&quot;height&quot;:1180}}">
+class Component extends DCLogic {
+  state = { phase: 'revealed', cite: 'shirt', step: 6 };
+
+  componentWillUnmount() { this._clear(); }
+  _clear() { if (this._t) clearTimeout(this._t); this._clearIv(); }
+  _clearIv() { if (this._iv) { clearInterval(this._iv); this._iv = null; } }
+
+  _data() {
+    return {
+      donoghue: { id:'donoghue', short:'Donoghue', name:'Donoghue v Stevenson', type:'Case', where:'Notes · p 4',
+        snippet:'You must take reasonable care to avoid acts or omissions which you can reasonably foresee would be likely to injure your neighbour — the foundational neighbour principle.' },
+      nagle: { id:'nagle', short:'Nagle', name:'Nagle v Rottnest Island Authority', type:'Case', where:'Notes · p 7',
+        snippet:'An authority that invited the public to use a swimming area owed a duty to take reasonable care to prevent injury from foreseeable hazards, including a failure to warn of submerged rocks.' },
+      shirt: { id:'shirt', short:'Shirt', name:'Wyong Shire Council v Shirt', type:'Case', where:'Slides · Sem 2, s9',
+        snippet:'A risk is foreseeable when it is not far-fetched or fanciful. The court then weighs the probability and gravity of the harm against the burden of taking precautions — the calculus of negligence.' },
+      s5b: { id:'s5b', short:'CLA s 5B', name:'Civil Liability Act 2002 (NSW) s 5B', type:'Statute', where:'Statute · s 5B',
+        snippet:'A person is not negligent in failing to take precautions against a risk of harm unless the risk was foreseeable, not insignificant, and a reasonable person in the position would have taken those precautions.' },
+    };
+  }
+
+  _anim(threshold, kind) {
+    const shown = this.state.step >= threshold;
+    if (kind === 'pop') {
+      return shown
+        ? { display:'inline-flex', opacity:1, transform:'scale(1)', transition:'opacity .3s ease, transform .5s cubic-bezier(.34,1.56,.64,1)' }
+        : { display:'inline-flex', opacity:0, transform:'scale(.4)' };
+    }
+    return shown
+      ? { opacity:1, transform:'translateY(0)', transition:'opacity .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1)' }
+      : { opacity:0, transform:'translateY(12px)' };
+  }
+
+  reveal() {
+    this._clear();
+    this.setState({ phase:'composing', cite:null, step:0 });
+    this._t = setTimeout(() => {
+      this.setState({ phase:'revealed', cite:'shirt', step:0 });
+      this._cascade();
+    }, 950);
+  }
+  _cascade() {
+    this._clearIv();
+    let s = 0;
+    this._iv = setInterval(() => {
+      s += 1;
+      this.setState({ step: s });
+      if (s >= 6) this._clearIv();
+    }, 320);
+  }
+  replay() {
+    this._clear();
+    this.setState({ phase:'idle', cite:null, step:0 });
+  }
+
+  renderVals() {
+    const data = this._data();
+    const order = ['donoghue','nagle','shirt','s5b'];
+    const chips = order.map(k => ({ ...data[k], onOpen: () => this.setState({ cite: k }) }));
+    const active = this.state.cite ? data[this.state.cite] : null;
+    return {
+      isIdle: this.state.phase === 'idle',
+      isComposing: this.state.phase === 'composing',
+      isRevealed: this.state.phase === 'revealed',
+      reveal: () => this.reveal(),
+      replay: () => this.replay(),
+      a: {
+        banner: this._anim(0),
+        check: this._anim(6, 'pop'),
+        issue: this._anim(1),
+        rule: this._anim(2),
+        app: this._anim(3),
+        concl: this._anim(4),
+        auth: this._anim(5),
+        rail: this._anim(5),
+      },
+      chips,
+      open: {
+        donoghue: () => this.setState({ cite:'donoghue' }),
+        nagle: () => this.setState({ cite:'nagle' }),
+        shirt: () => this.setState({ cite:'shirt' }),
+        s5b: () => this.setState({ cite:'s5b' }),
+      },
+      active,
+      hasActive: !!active,
+      closeCite: () => this.setState({ cite: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

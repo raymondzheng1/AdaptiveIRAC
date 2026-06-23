@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;}
+    body{margin:0;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+    @keyframes omDraw{to{stroke-dashoffset:0;}}
+    @keyframes omFadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+    @keyframes omPop{0%{transform:scale(.7);opacity:0;}60%{transform:scale(1.08);}100%{transform:scale(1);opacity:1;}}
+    @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+  </style>
+</helmet>
+
+<div style="--bg:#f5f3ee; --surface:#fdfcfa; --surface-2:#efece3; --border:#e4dfd4; --border-strong:#d8d2c4; --text:#1b2230; --text-muted:#5c6573; --primary:#1f3a8a; --primary-deep:#172a63; --accent:#0f766e; --accent-deep:#0b5a53; --accent-tint:#e4f0ee; --danger:#b42318; --warn:#b45309; --radius-sm:8px; --radius:12px; --radius-lg:18px; --shadow-sm:0 1px 2px rgba(24,33,58,.06); --shadow:0 1px 3px rgba(24,33,58,.05),0 12px 32px -16px rgba(24,33,58,.22); --font-serif:'Newsreader',Georgia,serif; --font-sans:'Hanken Grotesk',system-ui,sans-serif; --font-mono:'IBM Plex Mono',ui-monospace,monospace; font-family:var(--font-sans); color:var(--text); background:#e8e3d9; min-height:100vh; padding:36px 24px 96px;">
+ <div style="max-width:1140px; margin:0 auto;">
+
+  <!-- DOC HEADER -->
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:22px; border-bottom:1px solid var(--border-strong);">
+    <div style="display:flex; align-items:center; gap:11px;">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span style="font-family:var(--font-serif); font-size:19px; font-weight:600; letter-spacing:-.01em; color:var(--text);">Adaptive&nbsp;IRAC</span>
+    </div>
+    <div style="font-family:var(--font-mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted);">Brand &amp; Design System · v1 · draft</div>
+  </div>
+
+  <!-- HERO -->
+  <section style="margin-top:56px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Foundation</div>
+    <h1 style="font-family:var(--font-serif); font-weight:500; font-size:clamp(38px,5.4vw,62px); line-height:1.04; letter-spacing:-.018em; margin:14px 0 0; max-width:18ch; color:var(--text);">A study tool you can <span style="font-style:italic; color:var(--primary);">cite</span>.</h1>
+    <p style="max-width:60ch; color:var(--text-muted); font-size:18px; line-height:1.62; margin:22px 0 0;">The whole product rests on one promise: <strong style="color:var(--text); font-weight:600;">grounded in your own materials, every citation pinpointed — or it declines, never invents.</strong> This system makes that trustworthiness visible. Calm, precise, scholarly — a quality research tool, deliberately <em>not</em> a generic novelty app.</p>
+
+    <div style="margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; align-items:stretch;">
+      <div style="flex:1 1 250px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm);">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted);">North star</div>
+        <div style="margin-top:7px; font-size:15.5px; line-height:1.5; color:var(--text);">Earned trust. In ~5 seconds a sceptical law student should feel <em>“this won’t make up cases.”</em></div>
+      </div>
+      <div style="flex:1 1 250px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm);">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-muted);">Feeling</div>
+        <div style="margin-top:7px; font-size:15.5px; line-height:1.5; color:var(--text);">Anxious → reassured → focused. Quiet authority under exam pressure.</div>
+      </div>
+      <div style="flex:1 1 250px; background:var(--primary); color:#fff; border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm);">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#a9bdf0;">Hard rule</div>
+        <div style="margin-top:7px; font-size:15.5px; line-height:1.5;">No “AI” anywhere. No sparkles, robots, or magic framing. Credibility comes from rigour.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE MARK -->
+  <section style="margin-top:88px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">01 · The mark</div>
+    <h2 style="font-family:var(--font-serif); font-weight:500; font-size:32px; line-height:1.12; letter-spacing:-.01em; margin:10px 0 0; color:var(--text);">The check as a seal of verification</h2>
+    <p style="max-width:64ch; color:var(--text-muted); font-size:16px; line-height:1.6; margin:12px 0 28px;">A single deliberate checkmark, set in a rounded ink square. Read it as a stamp — <em>checked against your materials</em> — not a generic tick. No scales of justice. The mark is the same gesture the product makes on every citation.</p>
+
+    <div style="display:flex; gap:18px; flex-wrap:wrap; align-items:stretch;">
+      <div style="flex:1 1 260px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:34px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px;">
+        <svg width="92" height="92" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Primary · navy</div>
+      </div>
+      <div style="flex:1 1 160px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:26px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px;">
+        <svg width="46" height="46" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="var(--primary)"/><path d="M9.6 16.5l4.2 4.3L22.4 11.2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="var(--primary)"/><path d="M9.6 16.5l4.2 4.3L22.4 11.2" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Scales cleanly</div>
+      </div>
+      <div style="flex:1 1 220px; display:flex; flex-direction:column; gap:14px;">
+        <div style="background:var(--primary); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px; display:flex; align-items:center; gap:13px; flex:1;">
+          <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#fff"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="var(--primary)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="color:#fff; font-size:13px;">On navy (inverted)</span>
+        </div>
+        <div style="background:var(--accent); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px; display:flex; align-items:center; gap:13px; flex:1;">
+          <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="#fff"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="color:#fff; font-size:13px;">Jade = the verified signal</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAMES -->
+  <section style="margin-top:88px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">02 · Name &amp; wordmark</div>
+    <h2 style="font-family:var(--font-serif); font-weight:500; font-size:32px; line-height:1.12; letter-spacing:-.01em; margin:10px 0 0; color:var(--text);">Four lockups to choose from</h2>
+    <p style="max-width:64ch; color:var(--text-muted); font-size:16px; line-height:1.6; margin:12px 0 28px;">All law-literate, none “tech.” My pick is <strong style="color:var(--text);">Pincite</strong> — a <em>pinpoint citation</em> is the exact page or paragraph a source supports. It <em>is</em> the product’s magic, and every law student knows the term. The name is a single token swap, so nothing here is locked.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:16px;">
+      <div style="background:var(--surface); border:1.5px solid var(--accent); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; position:relative;">
+        <div style="position:absolute; top:16px; right:16px; font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#fff; background:var(--accent); padding:3px 8px; border-radius:999px;">Recommended</div>
+        <div style="display:flex; align-items:center; gap:11px;">
+          <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-family:var(--font-serif); font-size:30px; font-weight:600; letter-spacing:-.02em; color:var(--text);">Pincite</span>
+        </div>
+        <div style="margin-top:14px; font-size:14.5px; line-height:1.55; color:var(--text-muted);">A pinpoint citation — the exact source location. Crisp, ownable, instantly legible to its audience.</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:24px;">
+        <div style="display:flex; align-items:center; gap:11px;">
+          <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-family:var(--font-serif); font-size:30px; font-weight:600; letter-spacing:-.02em; color:var(--text);">Headnote</span>
+        </div>
+        <div style="margin-top:14px; font-size:14.5px; line-height:1.55; color:var(--text-muted);">The editor’s summary atop a reported case. Scholarly, structured, calm.</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:24px;">
+        <div style="display:flex; align-items:center; gap:11px;">
+          <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-family:var(--font-serif); font-size:30px; font-weight:600; letter-spacing:-.02em; color:var(--text);">Marginalia</span>
+        </div>
+        <div style="margin-top:14px; font-size:14.5px; line-height:1.55; color:var(--text-muted);">The notes in the margin of your own books. Warm, studious, a touch literary.</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:24px;">
+        <div style="display:flex; align-items:center; gap:11px;">
+          <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="8" fill="var(--primary)"/><path d="M9.4 16.5l4.3 4.4L22.7 11" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-family:var(--font-serif); font-size:27px; font-weight:600; letter-spacing:-.015em; color:var(--text);">Adaptive&nbsp;IRAC</span>
+        </div>
+        <div style="margin-top:14px; font-size:14.5px; line-height:1.55; color:var(--text-muted);">The working name — descriptive and safe. Keep it if you’d rather not rebrand.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE DIRECTIONS -->
+  <section style="margin-top:88px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">03 · Three directions</div>
+    <h2 style="font-family:var(--font-serif); font-weight:500; font-size:32px; line-height:1.12; letter-spacing:-.01em; margin:10px 0 0; color:var(--text);">Same DNA, three temperaments</h2>
+    <p style="max-width:64ch; color:var(--text-muted); font-size:16px; line-height:1.6; margin:12px 0 28px;">All share the navy + jade palette and the check mark — they differ in <strong style="color:var(--text);">type, rhythm and texture</strong>. Shown with the name “Pincite”. Mix and match; we’ll commit to one before I build the surfaces.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px;">
+
+      <!-- A: STATUTE -->
+      <div style="--head:var(--font-serif); --body:'Hanken Grotesk',sans-serif; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;">
+        <div style="padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);">A · Statute</span>
+          <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">Newsreader + Hanken</span>
+        </div>
+        <div style="padding:20px;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="var(--primary)"/><path d="M9.6 16.5l4.2 4.3L22.4 11.2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-family:var(--font-serif); font-size:23px; font-weight:600; letter-spacing:-.02em;">Pincite</span>
+          </div>
+          <div style="display:flex; gap:5px; margin-top:18px;">
+            <span style="width:26px; height:26px; border-radius:6px; background:var(--primary);"></span>
+            <span style="width:26px; height:26px; border-radius:6px; background:var(--accent);"></span>
+            <span style="width:26px; height:26px; border-radius:6px; background:#334155;"></span>
+            <span style="width:26px; height:26px; border-radius:6px; background:var(--bg); border:1px solid var(--border);"></span>
+          </div>
+          <div style="font-family:var(--font-serif); font-size:25px; line-height:1.18; letter-spacing:-.01em; margin-top:20px; padding-bottom:14px; border-bottom:2px solid var(--text);">Negligence — the duty of care</div>
+          <p style="font-family:var(--body); font-size:13.5px; line-height:1.62; color:var(--text-muted); margin:14px 0 0;">Editorial authority. Generous measure, a ruled heading, the unhurried look of a well-set casebook.</p>
+          <div style="margin-top:16px;">
+            <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent);">Rule</span>
+            <p style="font-family:var(--body); font-size:13.5px; line-height:1.55; margin:5px 0 0; color:var(--text);">A duty arises where harm is reasonably foreseeable.</p>
+          </div>
+          <div style="margin-top:16px; display:inline-flex; align-items:center; gap:7px; background:var(--bg); border:1px solid var(--border-strong); border-radius:7px; padding:5px 9px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:var(--accent);"></span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text);">Shirt — Slides, Sem&nbsp;2 s9</span>
+          </div>
+          <div style="margin-top:18px; display:flex; gap:8px;">
+            <span style="font-family:var(--body); font-weight:600; font-size:13px; color:#fff; background:var(--primary); padding:9px 15px; border-radius:8px;">Start practising</span>
+            <span style="font-family:var(--body); font-weight:600; font-size:13px; color:var(--text); background:transparent; border:1px solid var(--border-strong); padding:9px 15px; border-radius:8px;">Example</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- B: CHAMBERS -->
+      <div style="--body:'IBM Plex Sans',sans-serif; background:#fcfcfb; border:1px solid #e6e6e2; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;">
+        <div style="padding:16px 18px; border-bottom:1px solid #e6e6e2; display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);">B · Chambers</span>
+          <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">IBM Plex Sans + Mono</span>
+        </div>
+        <div style="padding:20px;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="var(--primary)"/><path d="M9.6 16.5l4.2 4.3L22.4 11.2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-family:'IBM Plex Sans',sans-serif; font-size:21px; font-weight:600; letter-spacing:-.02em;">Pincite</span>
+          </div>
+          <div style="display:flex; gap:5px; margin-top:18px;">
+            <span style="width:26px; height:26px; border-radius:5px; background:var(--primary);"></span>
+            <span style="width:26px; height:26px; border-radius:5px; background:var(--accent);"></span>
+            <span style="width:26px; height:26px; border-radius:5px; background:#475569;"></span>
+            <span style="width:26px; height:26px; border-radius:5px; background:#f6f6f4; border:1px solid #e6e6e2;"></span>
+          </div>
+          <div style="font-family:'IBM Plex Sans',sans-serif; font-size:21px; font-weight:600; line-height:1.2; letter-spacing:-.02em; margin-top:20px;">Negligence — the duty of care</div>
+          <p style="font-family:var(--body); font-size:13.5px; line-height:1.62; color:var(--text-muted); margin:12px 0 0;">Precise software. All-sans, mono citations, hairline rules — the calm exactness of a research terminal.</p>
+          <div style="margin-top:16px;">
+            <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent);">Rule</span>
+            <p style="font-family:var(--body); font-size:13.5px; line-height:1.55; margin:5px 0 0; color:var(--text);">A duty arises where harm is reasonably foreseeable.</p>
+          </div>
+          <div style="margin-top:16px; display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid #dcdcd6; border-radius:5px; padding:5px 9px;">
+            <span style="width:6px; height:6px; border-radius:1px; background:var(--accent);"></span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text);">Shirt — Slides, Sem&nbsp;2 s9</span>
+          </div>
+          <div style="margin-top:18px; display:flex; gap:8px;">
+            <span style="font-family:var(--body); font-weight:600; font-size:13px; color:#fff; background:var(--primary); padding:9px 15px; border-radius:6px;">Start practising</span>
+            <span style="font-family:var(--body); font-weight:600; font-size:13px; color:var(--text); background:transparent; border:1px solid #dcdcd6; padding:9px 15px; border-radius:6px;">Example</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- C: MARGIN -->
+      <div style="--head:'Spectral',serif; --body:'Hanken Grotesk',sans-serif; background:#fdfbf7; border:1px solid #ece4d6; border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;">
+        <div style="padding:16px 18px; border-bottom:1px solid #ece4d6; display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);">C · Margin</span>
+          <span style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">Spectral + Hanken</span>
+        </div>
+        <div style="padding:20px;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="7" fill="var(--primary)"/><path d="M9.6 16.5l4.2 4.3L22.4 11.2" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-family:'Spectral',serif; font-size:24px; font-weight:600; letter-spacing:-.01em;">Pincite</span>
+          </div>
+          <div style="display:flex; gap:5px; margin-top:18px;">
+            <span style="width:26px; height:26px; border-radius:7px; background:var(--primary);"></span>
+            <span style="width:26px; height:26px; border-radius:7px; background:var(--accent);"></span>
+            <span style="width:26px; height:26px; border-radius:7px; background:#3f3a33;"></span>
+            <span style="width:26px; height:26px; border-radius:7px; background:#f6f1e8; border:1px solid #ece4d6;"></span>
+          </div>
+          <div style="margin-top:20px; padding-left:13px; border-left:2px solid var(--accent);">
+            <div style="font-family:'Spectral',serif; font-size:24px; font-weight:500; line-height:1.2;">Negligence — the <span style="font-style:italic;">duty of care</span></div>
+          </div>
+          <p style="font-family:var(--body); font-size:13.5px; line-height:1.62; color:var(--text-muted); margin:14px 0 0;">Annotated margin. A literary serif and a marginal rule that tethers each citation to its source.</p>
+          <div style="margin-top:16px; padding-left:13px; border-left:2px solid var(--border-strong);">
+            <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent);">Rule</span>
+            <p style="font-family:var(--body); font-size:13.5px; line-height:1.55; margin:5px 0 0; color:var(--text);">A duty arises where harm is reasonably foreseeable.</p>
+          </div>
+          <div style="margin-top:16px; display:inline-flex; align-items:center; gap:7px; background:#fff; border:1px solid #e2d9c8; border-radius:999px; padding:5px 11px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:var(--accent);"></span>
+            <span style="font-family:var(--font-mono); font-size:11.5px; color:var(--text);">Shirt — Slides, Sem&nbsp;2 s9</span>
+          </div>
+          <div style="margin-top:18px; display:flex; gap:8px;">
+            <span style="font-family:var(--body); font-weight:600; font-size:13px; color:#fff; background:var(--primary); padding:9px 15px; border-radius:999px;">Start practising</span>
+            <span style="font-family:var(--body); font-weight:600; font-size:13px; color:var(--text); background:transparent; border:1px solid #e2d9c8; padding:9px 15px; border-radius:999px;">Example</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECOMMENDATION -->
+    <div style="margin-top:22px; background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-sm);">
+      <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);">My recommendation</div>
+      <p style="margin:9px 0 0; font-size:16px; line-height:1.62; max-width:78ch; color:var(--text);"><strong>A “Statute” as the base, with B’s mono citations.</strong> The Newsreader serif gives the scholarly authority that long IRAC prose needs and instantly separates us from generic apps; Hanken Grotesk keeps the editor and UI clean and warm; IBM Plex Mono on citation chips reads as <em>precise and checkable</em>. That hybrid is what the tokens and components below are built in.</p>
+    </div>
+  </section>
+
+  <!-- COLOR TOKENS -->
+  <section style="margin-top:88px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">04 · Colour tokens</div>
+    <h2 style="font-family:var(--font-serif); font-weight:500; font-size:32px; line-height:1.12; letter-spacing:-.01em; margin:10px 0 0; color:var(--text);">One disciplined accent</h2>
+    <p style="max-width:64ch; color:var(--text-muted); font-size:16px; line-height:1.6; margin:12px 0 28px;">Warm paper surfaces, ink-navy text, slate for support. <strong style="color:var(--accent);">Jade is reserved</strong> — it only ever means “verified / grounded.” That discipline is what makes the signal trustworthy. Each maps to a CSS variable.</p>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:12px;">
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#f5f3ee;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--bg</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#f5f3ee</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#fdfcfa; border-bottom:1px solid var(--border);"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--surface</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#fdfcfa</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#efece3;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--surface-2</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#efece3</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#1f3a8a;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--primary</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#1f3a8a</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#0f766e; position:relative;"><span style="position:absolute; bottom:7px; right:9px; font-family:var(--font-mono); font-size:9.5px; color:#bfe3dd; letter-spacing:.08em;">VERIFIED</span></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--accent</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#0f766e</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#1b2230;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--text</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#1b2230</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#5c6573;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--text-muted</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#5c6573</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#e4dfd4;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--border</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#e4dfd4</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#b42318;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--danger</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#b42318</div></div></div>
+      <div style="border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--surface);"><div style="height:74px; background:#b45309;"></div><div style="padding:11px 13px;"><div style="font-family:var(--font-mono); font-size:12px; color:var(--text);">--warn</div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">#b45309</div></div></div>
+    </div>
+  </section>
+
+  <!-- TYPE -->
+  <section style="margin-top:88px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">05 · Type</div>
+    <h2 style="font-family:var(--font-serif); font-weight:500; font-size:32px; line-height:1.12; letter-spacing:-.01em; margin:10px 0 0; color:var(--text);">Three roles, clear hierarchy</h2>
+    <p style="max-width:64ch; color:var(--text-muted); font-size:16px; line-height:1.6; margin:12px 0 28px;">Newsreader for display, Hanken Grotesk for body and UI, IBM Plex Mono for citations and labels. Built for dense IRAC prose: comfortable measure, ~1.65 line-height, strong limb labels.</p>
+
+    <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:16px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:26px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px;"><span style="font-family:var(--font-serif); font-size:15px; color:var(--text-muted);">Newsreader · Display</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">--font-serif</span></div>
+        <div style="font-family:var(--font-serif); font-size:52px; line-height:1.05; letter-spacing:-.02em; margin-top:16px;">Aa Bb Cc</div>
+        <div style="font-family:var(--font-serif); font-size:30px; font-weight:500; line-height:1.15; margin-top:14px;">The neighbour principle</div>
+        <div style="font-family:var(--font-serif); font-style:italic; font-size:21px; color:var(--text-muted); margin-top:8px;">reasonably foreseeable harm</div>
+
+        <div style="display:flex; align-items:baseline; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px; margin-top:30px;"><span style="font-size:15px; color:var(--text-muted);">Hanken Grotesk · Body &amp; UI</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">--font-sans</span></div>
+        <p style="font-size:16px; line-height:1.68; margin:14px 0 0; max-width:54ch;">A duty of care arises where a relationship of proximity exists and the risk of harm is reasonably foreseeable. The reasonable person does not guard against far-fetched or fanciful risks.</p>
+        <div style="display:flex; gap:18px; margin-top:14px; font-size:13px; color:var(--text-muted);"><span>Regular 400</span><span style="font-weight:500;">Medium 500</span><span style="font-weight:600;">Semibold 600</span><span style="font-weight:700;">Bold 700</span></div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:26px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; border-bottom:1px solid var(--border); padding-bottom:10px;"><span style="font-family:var(--font-mono); font-size:14px; color:var(--text-muted);">IBM Plex Mono</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">--font-mono</span></div>
+        <div style="font-family:var(--font-mono); font-size:18px; margin-top:14px; color:var(--accent);">[2023] HCA 7</div>
+        <div style="font-family:var(--font-mono); font-size:13px; margin-top:6px; color:var(--text);">Notes, p&nbsp;4 · s&nbsp;5B</div>
+
+        <div style="margin-top:26px; display:flex; flex-direction:column; gap:9px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-family:var(--font-serif); font-size:34px; line-height:1;">Display</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">38 / 1.05</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-family:var(--font-serif); font-size:26px; line-height:1;">Heading</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">28 / 1.15</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:18px; line-height:1;">Subhead</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">18 / 1.4</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:16px; line-height:1;">Body</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">16 / 1.65</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-size:13px; line-height:1; color:var(--text-muted);">Small / caption</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">13 / 1.5</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span style="font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);">Label</span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">11 · .12em</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACING / RADIUS / SHADOW -->
+  <section style="margin-top:88px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">06 · Spacing · Radius · Shadow</div>
+    <h2 style="font-family:var(--font-serif); font-weight:500; font-size:32px; line-height:1.12; letter-spacing:-.01em; margin:10px 0 0; color:var(--text);">The grid beneath the calm</h2>
+    <div style="display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:16px; margin-top:24px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Spacing · 4px base</div>
+        <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:64px;">--space-1</span><span style="height:14px; width:4px; background:var(--primary);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">4</span></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:64px;">--space-2</span><span style="height:14px; width:8px; background:var(--primary);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">8</span></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:64px;">--space-3</span><span style="height:14px; width:12px; background:var(--primary);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">12</span></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:64px;">--space-4</span><span style="height:14px; width:16px; background:var(--primary);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">16</span></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:64px;">--space-6</span><span style="height:14px; width:24px; background:var(--primary);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">24</span></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:64px;">--space-8</span><span style="height:14px; width:32px; background:var(--primary);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">32</span></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:64px;">--space-12</span><span style="height:14px; width:48px; background:var(--primary);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">48</span></div>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Radius</div>
+        <div style="margin-top:18px; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; align-items:center; gap:12px;"><span style="width:48px; height:36px; background:var(--surface-2); border:1px solid var(--border-strong); border-radius:8px;"></span><div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text);">--radius-sm</div><div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">8px · chips, inputs</div></div></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="width:48px; height:36px; background:var(--surface-2); border:1px solid var(--border-strong); border-radius:12px;"></span><div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text);">--radius</div><div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">12px · cards</div></div></div>
+          <div style="display:flex; align-items:center; gap:12px;"><span style="width:48px; height:36px; background:var(--surface-2); border:1px solid var(--border-strong); border-radius:18px;"></span><div><div style="font-family:var(--font-mono); font-size:11px; color:var(--text);">--radius-lg</div><div style="font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted);">18px · panels</div></div></div>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Elevation</div>
+        <div style="margin-top:20px; display:flex; flex-direction:column; gap:18px;">
+          <div style="display:flex; align-items:center; gap:14px;"><span style="width:56px; height:38px; background:#fff; border-radius:8px; box-shadow:0 1px 2px rgba(24,33,58,.06);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text);">--shadow-sm</span></div>
+          <div style="display:flex; align-items:center; gap:14px;"><span style="width:56px; height:38px; background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(24,33,58,.05),0 12px 32px -16px rgba(24,33,58,.22);"></span><span style="font-family:var(--font-mono); font-size:11px; color:var(--text);">--shadow</span></div>
+        </div>
+        <p style="margin:22px 0 0; font-size:12.5px; line-height:1.5; color:var(--text-muted);">Shadows stay low and soft — paper, not plastic. Elevation signals focus, never decoration.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section style="margin-top:88px;">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">07 · Components</div>
+    <h2 style="font-family:var(--font-serif); font-weight:500; font-size:32px; line-height:1.12; letter-spacing:-.01em; margin:10px 0 0; color:var(--text);">The primitives</h2>
+    <p style="max-width:64ch; color:var(--text-muted); font-size:16px; line-height:1.6; margin:12px 0 28px;">Small composable pieces — Button, Input, Badge, the citation chip, meter, steps, scorecard, notices. Built for a token-only, no-framework stack.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+
+      <!-- Buttons -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Buttons</div>
+        <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+          <button type="button" style="font-family:var(--font-sans); font-weight:600; font-size:14px; color:#fff; background:var(--primary); border:none; padding:11px 18px; border-radius:8px; cursor:pointer; transition:background .15s;" style-hover="background:var(--primary-deep);">Primary</button>
+          <button type="button" style="font-family:var(--font-sans); font-weight:600; font-size:14px; color:var(--text); background:var(--surface); border:1px solid var(--border-strong); padding:11px 18px; border-radius:8px; cursor:pointer; transition:border-color .15s;" style-hover="border-color:var(--text-muted);">Secondary</button>
+          <button type="button" style="font-family:var(--font-sans); font-weight:600; font-size:14px; color:var(--primary); background:transparent; border:none; padding:11px 14px; border-radius:8px; cursor:pointer;" style-hover="background:var(--surface-2);">Ghost</button>
+          <button type="button" disabled style="font-family:var(--font-sans); font-weight:600; font-size:14px; color:#9aa1ad; background:var(--surface-2); border:1px solid var(--border); padding:11px 18px; border-radius:8px; cursor:not-allowed;">Disabled</button>
+        </div>
+        <div style="margin-top:14px; display:flex; gap:10px; align-items:center;">
+          <button type="button" style="font-family:var(--font-sans); font-weight:600; font-size:15px; color:#fff; background:var(--primary); border:none; padding:13px 22px; border-radius:9px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;" style-hover="background:var(--primary-deep);">Start practising <span style="font-size:17px; line-height:1;">→</span></button>
+          <span style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">no sign-up</span>
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Inputs &amp; controls</div>
+        <label style="display:block; margin-top:16px; font-size:13px; font-weight:600; color:var(--text);">Subject name</label>
+        <input type="text" value="Torts — Negligence" style="width:100%; margin-top:6px; font-family:var(--font-sans); font-size:14px; color:var(--text); background:var(--bg); border:1px solid var(--border-strong); border-radius:8px; padding:11px 13px; outline:none; transition:border-color .15s, box-shadow .15s;" style-focus="border-color:var(--primary); box-shadow:0 0 0 3px rgba(31,58,138,.16);">
+        <div style="margin-top:14px; display:inline-flex; padding:3px; background:var(--surface-2); border-radius:9px; border:1px solid var(--border);">
+          <span style="font-family:var(--font-sans); font-size:13px; font-weight:600; color:var(--text-muted); padding:7px 13px; border-radius:7px;">Foundational</span>
+          <span style="font-family:var(--font-sans); font-size:13px; font-weight:600; color:#fff; background:var(--primary); padding:7px 13px; border-radius:7px; box-shadow:var(--shadow-sm);">Standard</span>
+          <span style="font-family:var(--font-sans); font-size:13px; font-weight:600; color:var(--text-muted); padding:7px 13px; border-radius:7px;">Exam</span>
+        </div>
+      </div>
+
+      <!-- Badges -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Authority badges</div>
+        <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:9px;">
+          <span style="font-family:var(--font-mono); font-size:11.5px; font-weight:500; color:var(--primary); background:rgba(31,58,138,.08); border:1px solid rgba(31,58,138,.2); padding:4px 10px; border-radius:999px;">Case</span>
+          <span style="font-family:var(--font-mono); font-size:11.5px; font-weight:500; color:var(--accent-deep); background:var(--accent-tint); border:1px solid rgba(15,118,110,.25); padding:4px 10px; border-radius:999px;">Statute</span>
+          <span style="font-family:var(--font-mono); font-size:11.5px; font-weight:500; color:#475569; background:#eef1f4; border:1px solid #dde3ea; padding:4px 10px; border-radius:999px;">Notes</span>
+          <span style="font-family:var(--font-mono); font-size:11.5px; font-weight:500; color:var(--warn); background:#fdf3e7; border:1px solid #f3dcbf; padding:4px 10px; border-radius:999px;">Slides</span>
+        </div>
+        <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:9px; align-items:center;">
+          <span style="display:inline-flex; align-items:center; gap:5px; font-family:var(--font-sans); font-size:12px; font-weight:600; color:var(--accent-deep); background:var(--accent-tint); padding:5px 11px; border-radius:999px;"><svg width="13" height="13" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified</span>
+          <span style="font-family:var(--font-sans); font-size:12px; font-weight:600; color:var(--warn); background:#fdf3e7; padding:5px 11px; border-radius:999px;">Outside corpus</span>
+          <span style="font-family:var(--font-sans); font-size:12px; font-weight:600; color:var(--text-muted); background:var(--surface-2); padding:5px 11px; border-radius:999px;">Draft</span>
+        </div>
+      </div>
+
+      <!-- Citation chip (LIVE) -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Citation chip — click to source <span style="color:var(--accent);">· live</span></div>
+        <div style="margin-top:14px; display:flex; flex-wrap:wrap; gap:8px;">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="3">
+            <button type="button" onClick="{{ c.onOpen }}" style="display:inline-flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:12px; color:var(--text); background:var(--bg); border:1px solid var(--border-strong); padding:6px 11px; border-radius:8px; cursor:pointer; transition:border-color .15s, background .15s;" style-hover="border-color:var(--accent); background:var(--accent-tint);">
+              <span style="width:6px; height:6px; border-radius:50%; background:var(--accent); flex:none;"></span>
+              <span style="font-weight:500;">{{ c.short }}</span>
+              <span style="color:var(--text-muted);">{{ c.where }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px; background:var(--bg); border:1px solid var(--border-strong); border-left:3px solid var(--accent); border-radius:10px; padding:14px 15px; animation:omFadeUp .25s ease;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                <svg width="14" height="14" viewBox="0 0 24 24" style="flex:none;"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span style="font-family:var(--font-serif); font-size:15px; font-weight:600; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ active.name }}</span>
+              </div>
+              <button type="button" onClick="{{ closeCite }}" aria-label="Close" style="flex:none; font-family:var(--font-sans); font-size:16px; line-height:1; color:var(--text-muted); background:transparent; border:none; cursor:pointer; padding:3px;">×</button>
+            </div>
+            <div style="font-family:var(--font-mono); font-size:11px; color:var(--accent-deep); margin-top:5px;">{{ active.type }} · {{ active.where }}</div>
+            <p style="font-family:var(--font-serif); font-size:14.5px; line-height:1.6; color:var(--text); margin:9px 0 0;">{{ active.snippet }}</p>
+          </div>
+        </sc-if>
+      </div>
+
+      <!-- Verified banner -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Verified banner</div>
+        <div style="margin-top:14px; display:flex; align-items:center; gap:13px; background:var(--accent-tint); border:1px solid rgba(15,118,110,.22); border-radius:11px; padding:15px 17px;">
+          <svg width="30" height="30" viewBox="0 0 24 24" style="flex:none;" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--accent)"/><path d="M6.6 12.4l3.3 3.3L17 8.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="stroke-dasharray:22; stroke-dashoffset:22; animation:omDraw .7s .3s cubic-bezier(.2,.7,.2,1) forwards;"/></svg>
+          <div>
+            <div style="font-family:var(--font-sans); font-size:15px; font-weight:600; color:var(--accent-deep);">Every citation verified against your materials</div>
+            <div style="font-size:13px; color:var(--text-muted); margin-top:2px;">3 authorities · all pinpointed to source</div>
+          </div>
+        </div>
+        <div style="margin-top:12px; display:flex; align-items:center; gap:9px; color:var(--text-muted);">
+          <svg width="15" height="15" viewBox="0 0 24 24" style="flex:none;" aria-hidden="true"><path d="M12 3l7 3v5c0 4.2-2.9 7.4-7 8.8C7.9 18.4 5 15.2 5 11V6l7-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 11.5l2 2 4-4.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:12.5px;">Processed in memory · discarded when you leave · never stored</span>
+        </div>
+      </div>
+
+      <!-- Usage meter -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Usage meter</div>
+        <div style="margin-top:16px; display:flex; align-items:baseline; justify-content:space-between;">
+          <span style="font-size:13px; color:var(--text-muted);">Free session</span>
+          <span style="font-family:var(--font-mono); font-size:13px; color:var(--text);"><span style="color:var(--text); font-weight:500;">$1.20</span> / $5.00</span>
+        </div>
+        <div style="margin-top:9px; height:8px; background:var(--surface-2); border-radius:999px; overflow:hidden;"><div style="width:24%; height:100%; background:var(--accent); border-radius:999px;"></div></div>
+        <div style="margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <span style="font-size:12.5px; color:var(--text-muted);">You’re in control — it’s free.</span>
+          <button type="button" style="font-family:var(--font-sans); font-weight:600; font-size:12.5px; color:var(--primary); background:transparent; border:1px solid var(--border-strong); padding:7px 12px; border-radius:8px; cursor:pointer;" style-hover="border-color:var(--primary);">Use my own key</button>
+        </div>
+      </div>
+
+      <!-- Progress steps -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Progress steps</div>
+        <div style="margin-top:22px; display:flex; align-items:center;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><span style="width:30px; height:30px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24"><path d="M5 12.5l4 4 10-10.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:11.5px; font-weight:600; color:var(--text);">Upload</span></div>
+          <div style="flex:1; height:2px; background:var(--accent); margin:0 6px; margin-bottom:24px;"></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><span style="width:30px; height:30px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px; box-shadow:0 0 0 4px rgba(31,58,138,.14);">2</span><span style="font-size:11.5px; font-weight:600; color:var(--text);">Authorities</span></div>
+          <div style="flex:1; height:2px; background:var(--border-strong); margin:0 6px; margin-bottom:24px;"></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:7px;"><span style="width:30px; height:30px; border-radius:50%; background:var(--surface); border:1.5px solid var(--border-strong); color:var(--text-muted); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:13px;">3</span><span style="font-size:11.5px; font-weight:500; color:var(--text-muted);">Practise</span></div>
+        </div>
+      </div>
+
+      <!-- Rubric scorecard -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between;">
+          <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Rubric scorecard</div>
+          <div style="font-family:var(--font-serif); font-size:20px; font-weight:600; color:var(--accent-deep);">37<span style="font-size:13px; color:var(--text-muted); font-family:var(--font-sans); font-weight:500;"> / 50</span></div>
+        </div>
+        <div style="margin-top:14px; display:flex; flex-direction:column; gap:9px;">
+          <div style="display:flex; align-items:center; gap:10px;"><span style="width:78px; font-size:12.5px; color:var(--text);">Issue</span><span style="flex:1; height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden;"><span style="display:block; width:80%; height:100%; background:var(--accent);"></span></span><span style="font-family:var(--font-mono); font-size:12px; color:var(--text); width:30px; text-align:right;">8</span></div>
+          <div style="display:flex; align-items:center; gap:10px;"><span style="width:78px; font-size:12.5px; color:var(--text);">Rule</span><span style="flex:1; height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden;"><span style="display:block; width:70%; height:100%; background:var(--accent);"></span></span><span style="font-family:var(--font-mono); font-size:12px; color:var(--text); width:30px; text-align:right;">7</span></div>
+          <div style="display:flex; align-items:center; gap:10px;"><span style="width:78px; font-size:12.5px; color:var(--text);">Application</span><span style="flex:1; height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden;"><span style="display:block; width:60%; height:100%; background:var(--primary);"></span></span><span style="font-family:var(--font-mono); font-size:12px; color:var(--text); width:30px; text-align:right;">6</span></div>
+          <div style="display:flex; align-items:center; gap:10px;"><span style="width:78px; font-size:12.5px; color:var(--text);">Conclusion</span><span style="flex:1; height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden;"><span style="display:block; width:70%; height:100%; background:var(--accent);"></span></span><span style="font-family:var(--font-mono); font-size:12px; color:var(--text); width:30px; text-align:right;">7</span></div>
+          <div style="display:flex; align-items:center; gap:10px;"><span style="width:78px; font-size:12.5px; color:var(--text);">Authority</span><span style="flex:1; height:7px; background:var(--surface-2); border-radius:999px; overflow:hidden;"><span style="display:block; width:90%; height:100%; background:var(--accent);"></span></span><span style="font-family:var(--font-mono); font-size:12px; color:var(--text); width:30px; text-align:right;">9</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notices row -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">Insufficient grounding — calm, not an error</div>
+        <div style="margin-top:14px; background:var(--surface-2); border:1px solid var(--border-strong); border-left:3px solid #94a3b8; border-radius:10px; padding:15px 16px;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" style="flex:none;" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#64748b" stroke-width="1.7"/><path d="M12 8v5" stroke="#64748b" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16" r="1.1" fill="#64748b"/></svg>
+            <span style="font-family:var(--font-sans); font-size:14.5px; font-weight:600; color:var(--text);">We couldn’t ground this from your materials</span>
+          </div>
+          <p style="font-size:13.5px; line-height:1.55; color:var(--text-muted); margin:9px 0 0;">Rather than invent an authority, we’ve stopped. Add the case or section to your corpus, or rephrase the question.</p>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:22px;">
+        <div style="font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted);">IRAC answer styling</div>
+        <div style="margin-top:14px; padding-left:14px; border-left:2px solid var(--accent-tint);">
+          <div style="font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); font-weight:500;">Issue</div>
+          <p style="font-family:var(--font-serif); font-size:15.5px; line-height:1.62; color:var(--text); margin:5px 0 0;">Whether the Council owed Mrs Shirt a duty of care in respect of the depth markings on the waterway.</p>
+        </div>
+        <div style="margin-top:12px; display:flex; gap:7px; flex-wrap:wrap;">
+          <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); border:1px solid var(--border-strong); padding:3px 8px; border-radius:6px;">Issue</span>
+          <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); border:1px solid var(--border-strong); padding:3px 8px; border-radius:6px;">Rule</span>
+          <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); border:1px solid var(--border-strong); padding:3px 8px; border-radius:6px;">Application</span>
+          <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-muted); border:1px solid var(--border-strong); padding:3px 8px; border-radius:6px;">Conclusion</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin:12px 0 0; line-height:1.5;">Essay variant: <span style="color:var(--text);">Contention → For → Against → Preferred view.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER / NEXT -->
+  <section style="margin-top:80px; padding-top:26px; border-top:1px solid var(--border-strong);">
+    <div style="font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent);">Next</div>
+    <p style="max-width:74ch; font-size:16.5px; line-height:1.62; color:var(--text); margin:10px 0 0;">Once you pick a <strong>name</strong> and a <strong>direction</strong>, I’ll build the <strong>Landing page</strong> and the <strong>Model-answer hero</strong> — the verified banner, citation click-to-source (live above), and the answer-reveal motion — at 375px and desktop. Tell me what to change here first.</p>
+  </section>
+
+ </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { openCite: 'shirt' };
+  renderVals() {
+    const data = [
+      { id:'shirt', name:'Wyong Shire Council v Shirt', short:'Shirt', where:'Slides, Sem\u00a02 s9', type:'Case',
+        snippet:'A risk is foreseeable if it is "not far-fetched or fanciful". The court then weighs the magnitude of the risk against the burden of taking precautions \u2014 the calculus of negligence.' },
+      { id:'s5b', name:'Civil Liability Act 2002 (NSW) s 5B', short:'CLA s\u00a05B', where:'Statute, s\u00a05B', type:'Statute',
+        snippet:'A person is not negligent in failing to take precautions against a risk of harm unless the risk was foreseeable, not insignificant, and a reasonable person would have taken those precautions.' },
+      { id:'donoghue', name:'Donoghue v Stevenson', short:'Donoghue', where:'Notes, p\u00a04', type:'Authority',
+        snippet:'You must take reasonable care to avoid acts or omissions which you can reasonably foresee would be likely to injure your neighbour \u2014 the foundational neighbour principle.' },
+    ];
+    const open = this.state.openCite;
+    const chips = data.map(c => ({ ...c, onOpen: () => this.setState({ openCite: c.id }) }));
+    const active = data.find(c => c.id === open) || null;
+    return {
+      chips,
+      active,
+      hasActive: !!active,
+      closeCite: () => this.setState({ openCite: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

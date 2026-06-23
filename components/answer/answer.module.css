@@ -1,0 +1,223 @@
+/* Verified-answer system — tokens only. */
+
+/* ---- Citation chip: inline (in prose) ---- */
+.chipInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-chip-border);
+  border-radius: 6px;
+  padding: 0 7px;
+  cursor: pointer;
+  vertical-align: baseline;
+  white-space: nowrap;
+  transition: border-color .15s ease, background .15s ease;
+}
+.chipInline:hover { border-color: var(--accent); }
+.chipDot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex: none; }
+
+/* ---- Citation chip: authority-list ---- */
+.chipList {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s ease, background .15s ease;
+}
+.chipList:hover { border-color: var(--accent); background: var(--accent-tint); }
+.chipListActive { border-color: var(--accent); background: var(--accent-tint); }
+.miniType {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-chip-border-soft);
+  padding: 2px 6px;
+  border-radius: 5px;
+  flex: none;
+}
+.chipListName { font-weight: 600; }
+.chipListWhere { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-left: auto; }
+
+/* ---- Source panel ---- */
+.sourcePanel {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.sourceHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 15px;
+  background: var(--accent-tint);
+  border-bottom: 1px solid var(--accent-divider);
+  color: var(--accent);
+}
+.sourceLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  font-weight: 500;
+}
+.sourceClose {
+  margin-left: auto;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.sourceBody { padding: 16px; }
+.sourceMeta { display: flex; align-items: center; gap: 7px; }
+.sourceName {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 9px 0 0;
+}
+.passageBox {
+  margin-top: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px;
+}
+.passageLabel {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 7px;
+}
+.passageText {
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  line-height: 1.62;
+  margin: 0;
+  color: var(--text);
+}
+.sourceCta { margin-top: 13px; }
+
+/* Source panel — inline variant (landing worked example) */
+@keyframes pcUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.sourceInline {
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--accent);
+  border-radius: 11px;
+  padding: 15px 17px;
+  animation: pcUp .26s ease;
+}
+.sourceInlineTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.sourceInlineMeta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-deep);
+}
+.sourceInlineName { font-family: var(--font-serif); font-size: 18px; font-weight: 600; margin-top: 4px; }
+.sourceInlinePassage { font-family: var(--font-serif); font-size: 15.5px; line-height: 1.62; margin: 11px 0 0; color: var(--text); }
+.sourceInlineLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* ---- Verified banner ---- */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-chip-border);
+  border-radius: 13px;
+  padding: 15px 18px;
+}
+.bannerCheck { display: inline-flex; flex: none; }
+.bannerText { flex: 1; }
+.bannerHeadline { font-size: 15.5px; font-weight: 600; color: var(--accent-deep); }
+.bannerSub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.bannerMemory {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ---- IRAC renderer ---- */
+.limb { padding-left: 16px; border-left: 2px solid var(--accent-tint); }
+.limb + .limb { margin-top: 18px; }
+.limbLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+.limbProse {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.68;
+  margin: 6px 0 0;
+  color: var(--text);
+}
+
+/* ---- Authorities-used row ---- */
+.authRow { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); }
+.authHead {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 11px;
+}
+.authChips { display: flex; flex-wrap: wrap; gap: 9px; }
+.authSource { margin-top: 13px; }
+
+@media (max-width: 700px) {
+  .limb { padding-left: 13px; }
+  .limbProse { font-size: 15px; line-height: 1.62; }
+  .sourceName { font-size: 16px; }
+  .passageText { font-size: 13.5px; }
+  .authChips { flex-direction: column; }
+  .chipList { width: 100%; }
+}

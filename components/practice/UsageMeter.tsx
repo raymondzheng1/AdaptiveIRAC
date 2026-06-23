@@ -1,5 +1,6 @@
 import styles from "./practice.module.css";
 
+/** Free-session spend meter (non-alarming). Swaps to a key badge for BYO-key. */
 export function UsageMeter({
   usedUsd,
   capUsd,
@@ -11,22 +12,23 @@ export function UsageMeter({
 }) {
   if (byoKey) {
     return (
-      <div className={styles.usageMeter} title="Using your own key — no shared limit, no cost to us.">
-        <span>🔑 Using your own key</span>
-      </div>
+      <span className={styles.meterKeyBadge} title="Using your own key — no shared limit.">
+        Using your own key
+      </span>
     );
   }
   const pct = capUsd > 0 ? Math.min(100, (usedUsd / capUsd) * 100) : 0;
-  const fillClass =
-    pct >= 90 ? styles.meterFillDanger : pct >= 70 ? styles.meterFillWarn : "";
   return (
-    <div className={styles.usageMeter} title="Free session usage">
-      <span>
-        Free session: ${usedUsd.toFixed(2)} / ${capUsd.toFixed(0)}
-      </span>
+    <div className={styles.meter} title="You're in control — it's free.">
+      <div className={styles.meterRow}>
+        <span className={styles.meterLabel}>Free session</span>
+        <span className={styles.meterValue}>
+          ${usedUsd.toFixed(2)} / ${capUsd.toFixed(0)}
+        </span>
+      </div>
       <span className={styles.meterTrack}>
         <span
-          className={[styles.meterFill, fillClass].join(" ")}
+          className={[styles.meterFill, pct >= 90 ? styles.meterFillWarn : ""].join(" ")}
           style={{ width: `${pct}%` }}
         />
       </span>
