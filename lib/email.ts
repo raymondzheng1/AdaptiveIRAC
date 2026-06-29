@@ -6,9 +6,16 @@
  */
 const RESEND_API_URL = "https://api.resend.com/emails";
 
+/** Brand shown as the email sender name, so the operator inbox shows which app sent it. */
+export const EMAIL_BRAND = "Pincite";
+
 export function fromEmail(): string {
   // onboarding@resend.dev works without domain verification (Resend account owner only).
   return process.env.FROM_EMAIL ?? "onboarding@resend.dev";
+}
+/** "Pincite <address>" — Gmail/Outlook show "Pincite" as the sender. */
+export function fromHeader(): string {
+  return `${EMAIL_BRAND} <${fromEmail()}>`;
 }
 export function adminEmail(): string {
   return process.env.ADMIN_NOTIFY_EMAIL ?? "raymond.zheng@gmail.com";
@@ -39,7 +46,7 @@ const realSender: EmailSender = async ({ to, subject, html, text, replyTo }) => 
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        from: fromEmail(),
+        from: fromHeader(),
         to,
         subject,
         html,

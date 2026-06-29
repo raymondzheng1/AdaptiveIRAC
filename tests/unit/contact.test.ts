@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { __setKvForTests, MemoryKv } from "@/lib/kv";
 import { __setNowForTests } from "@/lib/util/clock";
 import { consumeRateLimit } from "@/lib/ratelimit";
-import { __setEmailSenderForTests, sendEmail, type EmailArgs } from "@/lib/email";
+import { __setEmailSenderForTests, fromHeader, sendEmail, type EmailArgs } from "@/lib/email";
 
 const FIXED = 1_700_000_000_000;
 
@@ -56,6 +56,10 @@ describe("sendEmail", () => {
     } finally {
       if (prev !== undefined) process.env.RESEND_API_KEY = prev;
     }
+  });
+
+  it("names the app in the sender header so the operator knows the source", () => {
+    expect(fromHeader()).toMatch(/^Pincite <.+@.+>$/);
   });
 
   it("routes through an injected sender and preserves reply-to", async () => {

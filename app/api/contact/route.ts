@@ -44,13 +44,16 @@ export async function POST(req: NextRequest) {
   const { name, email, subject, message } = parsed.data;
   const safeName = escapeHtml(name);
   const safeMsg = escapeHtml(message).replace(/\n/g, "<br>");
+  const appUrl = process.env.APP_BASE_URL?.replace(/\/$/, "") || "";
+  const source = `Submitted via the Pincite contact form${appUrl ? ` · ${appUrl}/contact` : ""}`;
 
-  // Notify the operator; reply-to = sender so they can reply directly.
+  // Notify the operator; reply-to = sender so they can reply directly. The
+  // sender name (Pincite) + this source line make clear which app it's from.
   const notify = await sendEmail({
     to: adminEmail(),
     subject: `[Pincite contact] ${subject ?? "Enquiry"} — ${name}`,
-    html: `<p><strong>From:</strong> ${safeName} &lt;${escapeHtml(email)}&gt;</p><p>${safeMsg}</p>`,
-    text: `From: ${name} <${email}>\n\n${message}`,
+    html: `<p style="font-family:monospace;font-size:12px;color:#5c6573">${source}</p><p><strong>From:</strong> ${safeName} &lt;${escapeHtml(email)}&gt;</p><p>${safeMsg}</p>`,
+    text: `${source}\n\nFrom: ${name} <${email}>\n\n${message}`,
     replyTo: email,
   });
 
@@ -59,12 +62,13 @@ export async function POST(req: NextRequest) {
     return fail("upstream_error", "We couldn't send your message right now. Please try again shortly.", 503);
   }
 
-  // Acknowledge to the sender (best-effort).
+  // Acknowledge to the sender (best-effort). Subject + sign-off name the app.
+  const ackFooter = appUrl ? `\n\n— The Pincite team · ${appUrl}` : "\n\n— The Pincite team";
   await sendEmail({
     to: email,
-    subject: "We've received your message",
-    html: `<p>Hi ${safeName},</p><p>Thanks for reaching out to Pincite — we'll be in touch shortly.</p>`,
-    text: `Hi ${name},\n\nThanks for reaching out to Pincite — we'll be in touch shortly.`,
+    subject: "Thanks for contacting Pincite",
+    html: `<p>Hi ${safeName},</p><p>Thanks for reaching out to Pincite — we'll be in touch shortly.</p><p style="color:#5c6573">— The Pincite team${appUrl ? ` · <a href="${appUrl}">${appUrl}</a>` : ""}</p>`,
+    text: `Hi ${name},\n\nThanks for reaching out to Pincite — we'll be in touch shortly.${ackFooter}`,
   });
 
   return ok({ ok: true });
