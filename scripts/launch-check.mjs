@@ -44,6 +44,11 @@ mustExist("app/robots.ts", "robots (§8)");
 mustContain("app/page.tsx", "application/ld+json", "JSON-LD structured data (§8)");
 mustContain("app/robots.ts", "APP_BASE_URL", "env-driven base URL (§8)");
 
+// §16.3 — contact page + rate-limited send route
+mustExist("app/contact/page.tsx", "contact page (§16.3)");
+mustContain("app/api/contact/route.ts", "consumeRateLimit", "contact route must rate-limit (§16.3 / §6.4)");
+mustContain("app/api/contact/route.ts", "replyTo", "operator notification must set reply-to = sender (§16.3)");
+
 // §15 — platform gotchas this project is exposed to
 mustContain("lib/kv/index.ts", "KV_REST_API_URL", "accept the Vercel Upstash env names, not just legacy (§15)");
 

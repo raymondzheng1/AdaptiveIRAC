@@ -186,6 +186,7 @@ export default function LandingPage() {
                 <a href="#how-it-works" className={styles.footerLink}>How it works</a>
                 <a href="#worked-example" className={styles.footerLink}>Worked example</a>
                 <Link href="/practice" className={styles.footerLink}>Start practising</Link>
+                <Link href="/contact" className={styles.footerLink}>Contact</Link>
               </div>
               <div className={styles.footerCol}>
                 <span className={styles.footerColHead}>Legal</span>
